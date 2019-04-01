@@ -1,0 +1,26 @@
+{
+  "name": "zeta-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "build": "parcel build src/index.html",
+    "start": "npm run build && live-server dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ashwin1014/parcel-starter-template.git"
+  },
+  "keywords": [],
+  "author": "Ashwin Bordoloi",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/plugin-proposal-class-properties": "^7.3.4",
+    "babel-polyfill": "^6.26.0",
+    "live-server": "^1.2.1",
+    "materialize-css": "^1.0.0",
+    "parcel-bundler": "^1.12.3"
+  }
+}

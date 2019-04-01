@@ -1,0 +1,100 @@
+:root {
+    --base-green:#4caf50 ;
+    --base-black:#333;
+    --white:#FFF;
+    }
+
+.d-none{
+    display: none;
+}
+
+.d-inline {
+    display: inline;
+}
+
+h6 {
+    font-style: normal;
+    font-weight: 700;
+}
+
+.btn_add_cart{
+    background-color: var(--base-green);
+}
+
+#food_detail_container{
+    display: none;
+}
+
+#food_item_container form {
+    margin-top: 50px;
+}
+
+.hint{
+    color: #ccc;
+    opacity: 0.6;
+}
+
+.i_cart{
+    float: right;
+    position: relative;
+    bottom: 22px;
+
+}
+
+.item_detail {
+    height: 50px;
+}
+
+.item_detail p{
+    color: var(--base-black);
+}
+    
+nav {
+    background-color: var(--base-green);
+}
+
+.item_btn {
+    width: 50%;
+    position: relative;
+    bottom: 60px;
+    left: 18px;
+    float: right;
+}
+
+#food_categories .btn-floating{
+    float: right;
+    top: -44px;
+    width: 25px;
+    height: 25px;
+    line-height: 39px;
+    visibility: visible;
+}
+
+#recipes_card .card{
+    max-width: 400px;
+    min-height: 530px;
+}
+
+#recipes_card .card-image img {
+    max-width: 400px;
+    max-height: 450px;
+}
+
+#food_categories .btn-floating i{
+  line-height: 0;
+}
+
+.card_h {
+    background-color: var(--white);
+    min-width: 100%;
+    min-height: 200px;
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .card_content{
+    min-width: 200px;
+    margin: 5px;
+  }
+
+/*# sourceMappingURL=/src.e31bb0bc.css.map */

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- <link rel="stylesheet" href="style.css"> -->
+    <title>Foodvourite</title>
+</head>
+<body>
+ <header>
+    <nav>
+        <div class="nav-wrapper">
+          <a href="JavaScript: location.reload(true);" class="brand-logo center">Best Food App</a>
+          <!-- <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a class="waves-effect waves-light mdl">Login & SignUp</a></li>
+          </ul> -->
+        </div>
+    </nav>
+ </header>  
+
+<section id="food_item_container">
+    <div class="container">
+        <div id="food_favourites" class='row'>
+          <h6>FAVOURITES</h6>   <i class="material-icons i_cart">shopping_cart</i>
+          <p class="hint">Enjoy what you have been ordering</p>
+          <section id='favourite_holder' class="card_h"></section>
+        </div>
+        <div id="food_categories">
+            <div>
+                <form class="col s12">
+                    <div class="row">
+                      <div class="input-field col s12">
+                        <i class="material-icons prefix">search</i>
+                        <input id="foodSearch" type="text" autocomplete="off">
+                        <label for="foodSearch">Search for a particular dish or ingredient</label>
+                        <button type="reset" class="btn-floating waves-light red"><i class="material-icons">clear</i></button>
+                      </div>
+                    </div>
+                  </form>
+                  <h6>SELECT CATEGORIES</h6>
+            </div>
+         
+              <div id="recipes_card" class="row">
+                  
+              </div>
+        </div>
+    </div>
+</section>
+
+<section id="food_detail_container">
+    <div class="container">
+        
+    </div>
+</section>
+
+
+<!-- Scripts -->
+<script src="./index.js"></script>
+</body>
+</html>

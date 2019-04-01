@@ -1,0 +1,132 @@
+<<<<<<< HEAD
+import "babel-polyfill";
+=======
+import M from "materialize-css";
+import "babel-polyfill";
+import "./style.css";
+
+const BASE_URL = "https://dog.ceo/api/";
+
+window.addEventListener("load", ()=>{
+    M.Sidenav.init(document.querySelectorAll('.sidenav'));
+    myLayout.fetchDog(`${BASE_URL}breeds/image/random/10`);
+    myLayout.fetchAllBreeds();
+});
+
+
+
+let myLayout = (()=>{
+
+    let fetchDog = async (url) => {
+        let response = await fetch(url).catch(err=>console.log(err));
+        let doggyData = await response.json();
+        // console.log(Array.isArray(doggyData.message));
+
+      let dogsGrid;
+      if(Array.isArray(doggyData.message)) {
+         dogsGrid = doggyData.message.map(dog=>{
+          return `<div class="col s6 m6 l6 xl6">
+          <div class="card">
+            <div class="card-image">
+              <img src="${dog}"}>
+            </div>           
+            <div class="card-action">
+              <a>${dog.split('breeds/')[1].split('/')[0]}</a>
+            </div>
+          </div>          
+        </div>`;
+      });
+      document.getElementById('breed-grid').innerHTML = dogsGrid.join('');
+      } else {
+        dogsGrid = `<div class="col s6 m6 l6 xl6">
+        <div class="card">
+          <div class="card-image">
+            <img src="${doggyData.message}"}>
+          </div>           
+          <div class="card-action">
+            <a>${doggyData.message ? doggyData.message.split('breeds/')[1].split('/')[0]:null}</a>
+          </div>
+        </div>          
+      </div>`;
+      document.getElementById('breed-grid').innerHTML = dogsGrid;
+
+      }
+       
+    };
+
+
+    const fetchAllBreeds = async ()=> {
+      let response = await fetch('https://dog.ceo/api/breeds/list/all');
+      let json = await response.json();
+
+     let dropDownList = Object.keys(json.message).map(ele=>{
+        // console.log(ele)
+        return `<li><a href="#!">${ele}</a></li>`
+      });
+      document.querySelector('#dropdown1').innerHTML = dropDownList.join('');
+      M.Dropdown.init(document.querySelectorAll('.dropdown-trigger'));
+
+      document.querySelectorAll('#dropdown1 li a').forEach(ele=>{
+        ele.addEventListener('click', (event)=>{
+          document.getElementById('breed_search').value = event.target.innerHTML;
+          M.updateTextFields();
+        })
+      })
+
+
+    }
+
+    
+    return {
+        fetchDog: fetchDog,  
+        fetchAllBreeds: fetchAllBreeds,     
+    };
+
+})();
+
+document.getElementById('btn-search').addEventListener('click', ()=> {
+  let breed = document.getElementById('breed_search').value;
+  if(breed !== '') myLayout.fetchDog(`${BASE_URL}breed/${breed}/images/random`);
+});
+
+
+const modalInstance = M.Modal.init(document.querySelector('#loginModal'),{
+    dismissible: false
+});
+
+
+document.querySelector('#loginModal .modal-footer a').addEventListener('click', ()=> {
+    
+    const usrname = document.querySelectorAll('#loginModal input')[0];
+    const usrpwd = document.querySelectorAll('#loginModal input')[1];
+    if(usrname.checkValidity() && usrpwd.checkValidity()) {
+        let userLoginObj = {
+            u_name: usrname.value,
+            u_pass: usrpwd.value
+        };
+        console.log(userLoginObj);
+        document.querySelector('.helper-text').style.display = 'none';
+        modalInstance.close();
+    } else document.querySelector('.helper-text').style.display = 'block';
+ 
+});
+
+
+document.querySelectorAll('.mdl').forEach(ele=>{
+    ele.addEventListener('click', ()=> {  
+        modalInstance.open();
+        const usrname = document.querySelectorAll('#loginModal input')[0];
+        const usrpwd = document.querySelectorAll('#loginModal input')[1];
+        usrname.value = '';
+        usrpwd.value = '';
+        document.querySelector('.helper-text').style.display = 'none';
+    });
+});
+
+document.querySelector('#loginModal .close-btn').addEventListener('click', ()=> {
+    modalInstance.close();
+});
+
+
+
+>>>>>>> 699c94976e1dab7e98a68c706397475d1a23ef25
