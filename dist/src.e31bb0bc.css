@@ -17,6 +17,12 @@ h6 {
     font-weight: 700;
 }
 
+.brand-logo {
+    background: transparent;
+    border: none;
+    margin-top: 10px;
+}
+
 .btn_add_cart{
     background-color: var(--base-green);
 }
@@ -37,7 +43,11 @@ h6 {
 .i_cart{
     float: right;
     position: relative;
-    bottom: 22px;
+    bottom: 0px;
+    height: 52px;
+    background: transparent;
+    border: none;
+    margin-right: 10px;
 
 }
 
@@ -96,5 +106,28 @@ nav {
     min-width: 200px;
     margin: 5px;
   }
+
+.cart_count{
+    background-color: red;
+    display: inline-block;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    padding: 2px;
+    position: relative;
+    bottom: 54px;
+    left: 12px;
+    text-align: center;
+}
+
+#food_detail_container .card {
+    max-width: 800px;
+    margin: auto;
+}
+
+#food_detail_container img {
+    max-height: 500px;
+    max-width: 800px;
+}
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

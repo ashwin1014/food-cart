@@ -8094,7 +8094,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8126,7 +8126,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -8161,12 +8161,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/materialize-css/dist/js/materialize.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/materialize-css/dist/js/materialize.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /*!
@@ -20634,11 +20634,22 @@ var foodApp = function () {
       var review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;
       document.querySelector('#food_detail_container').style.display = 'block';
       document.querySelector('#food_item_container').style.display = 'none';
-      document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_add_cart' onclick=\"increment()\" data-name=").concat(item.name, " data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">+</button>\n                      <p id=\"c_count\">").concat(count, "</p>\n                     <button class='btn btn_add_cart' onclick=\"decrement()\" data-name=").concat(item.name, " data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">-</button>\n                 </div>\n               </div>\n             </div>\n           </div>");
+      document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_add_cart' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_add_cart' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div class=\"d-inline\" style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" class=\"d-inline\">Category: ").concat(category, "</p> <p class=\"d-inline\">").concat(rating, " Rating (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
     }
   };
 
+  document.querySelector('.brand-logo').addEventListener('click', function () {
+    document.querySelector('#food_detail_container').style.display = 'none';
+    document.querySelector('#food_item_container').style.display = 'block';
+  });
   document.querySelector('#recipes_card').addEventListener('click', function (e) {
+    cartBtn(e);
+  });
+  document.querySelector('#food_detail_container').addEventListener('click', function (e) {
+    cartBtn(e);
+  });
+
+  var cartBtn = function cartBtn(e) {
     if (e.target.nodeName === 'BUTTON') {
       var name = e.target.dataset.name;
       var category = e.target.dataset.category;
@@ -20648,8 +20659,12 @@ var foodApp = function () {
       var rating = e.target.dataset.rating;
       var review = e.target.dataset.review;
       addToCart(name, category, image, detail, price, rating, review);
+      count++;
+      document.querySelector('.cart_count').innerHTML = count; // if(document.querySelector('#c_count')) document.querySelector('#c_count').innerHTML = count;
+
+      console.log(count);
     }
-  });
+  };
 
   var addToCart = function addToCart() {
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
@@ -20659,17 +20674,24 @@ var foodApp = function () {
     console.log(args);
   };
 
-  var increment = function increment() {
-    count++;
-    document.querySelector('#c_count');
-  }; //reveal functions
+  document.querySelector('nav > div > button:last-child').addEventListener('click', function () {
+    var cartItemHolder = document.createElement('ul');
+    cartItemHolder.setAttribute('class', 'dropdown-content');
+    cartItemHolder.setAttribute('id', 'dropdown-cart');
+    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item1')));
+    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item2')));
+    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item3')));
+    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item4')));
+    document.body.appendChild(cartItemHolder);
 
+    _materializeCss.default.Dropdown.init(document.querySelector('.dropdown-trigger'));
+  }); //reveal functions
 
   return {
     fetchFood: fetchFood
   };
 }();
-},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -20697,7 +20719,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "25574" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59517" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -20872,5 +20894,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/src.e31bb0bc.js.map

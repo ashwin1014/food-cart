@@ -101,46 +101,78 @@ let foodApp = (()=> {
                  <img src=${e.target.src}>
                </div>
                <div class="card-action">
-                 <div style="width: 50%" class="item_detail"> 
+                 <div style="width: 50%; margin-bottom: 50px" class="item_detail"> 
                      <p class="truncate">${name}</p>
-                     <p class="">${price}</p>
+                     <p class="">&#8377; ${price}</p>
                  </div>
                  <div class="item_btn">
-                     <button class='btn btn_add_cart' onclick="increment()" data-name=${item.name} data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>+</button>
-                      <p id="c_count">${count}</p>
-                     <button class='btn btn_add_cart' onclick="decrement()" data-name=${item.name} data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>-</button>
+                     <button class='btn btn_add_cart' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
+                      <p id="c_count" class="d-inline">0</p>
+                     <button class='btn btn_add_cart' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
                  </div>
+                 <div class="d-inline" style="margin-top: 50px">
+                  <p style="width: 50%" class="d-inline">Category: ${category}</p> <p class="d-inline">${rating} Rating (${review} Reviews)</p>
+                 </div>
+                 <h6>DETAILS</h6> 
+                 <p>${detail}</p>
                </div>
              </div>
-           </div>`;
+           </div>`;          
+
           }
     };
 
+    document.querySelector('.brand-logo').addEventListener('click',()=>{
+      document.querySelector('#food_detail_container').style.display = 'none';
+      document.querySelector('#food_item_container').style.display = 'block';
+    })
+
     
     document.querySelector('#recipes_card').addEventListener('click',  (e)=> {
-        if(e.target.nodeName === 'BUTTON'){
-          let name = e.target.dataset.name;
-          let category = e.target.dataset.category;
-          let image = e.target.dataset.image;
-          let detail = e.target.dataset.detail;
-          let price = e.target.dataset.price;
-          let rating = e.target.dataset.rating;
-          let review = e.target.dataset.review;              
-          addToCart(name, category, image, detail, price, rating, review);
-        }
+      cartBtn(e);
     });
 
+    document.querySelector('#food_detail_container').addEventListener('click',  (e)=> {
+      cartBtn(e);
+    });
+
+
+   const cartBtn = (e) => {
+      if(e.target.nodeName === 'BUTTON'){
+        let name = e.target.dataset.name;
+        let category = e.target.dataset.category;
+        let image = e.target.dataset.image;
+        let detail = e.target.dataset.detail;
+        let price = e.target.dataset.price;
+        let rating = e.target.dataset.rating;
+        let review = e.target.dataset.review;              
+        addToCart(name, category, image, detail, price, rating, review);
+        count++;
+        document.querySelector('.cart_count').innerHTML = count;
+        // if(document.querySelector('#c_count')) document.querySelector('#c_count').innerHTML = count;
+        console.log(count)
+      }
+   };
 
     const addToCart = (...args) => {
       console.log(args)
     };
 
-    const increment = () => {
-      count++;
-      document.querySelector('#c_count')
-    };
+    document.querySelector('nav > div > button:last-child').addEventListener('click', ()=> {      
+        let cartItemHolder = document.createElement('ul');
+        cartItemHolder.setAttribute('class','dropdown-content');
+        cartItemHolder.setAttribute('id','dropdown-cart');
+        
+        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item1')));
+        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item2')));
+        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item3')));
+        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item4')));
+       
 
-  
+       document.body.appendChild(cartItemHolder);
+       M.Dropdown.init(document.querySelector('.dropdown-trigger'));
+    });
+    
     //reveal functions
     return {
       fetchFood: fetchFood,     

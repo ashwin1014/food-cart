@@ -6,17 +6,14 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!-- <link rel="stylesheet" href="style.css"> -->
     <title>Foodvourite</title>
 <link rel="stylesheet" href="/src.e31bb0bc.css"></head>
 <body>
- <header>
+ <header class="navbar-fixed">
     <nav>
         <div class="nav-wrapper">
-          <a href="JavaScript: location.reload(true);" class="brand-logo center">Best Food App</a>
-          <!-- <ul id="nav-mobile" class="right hide-on-med-and-down">
-            <li><a class="waves-effect waves-light mdl">Login & SignUp</a></li>
-          </ul> -->
+          <button class="brand-logo center">Best Food App</button>
+          <button class="i_cart" data-target="dropdown1"><i class="material-icons">shopping_cart</i><span class="cart_count">0</span></button>
         </div>
     </nav>
  </header>  
@@ -24,7 +21,7 @@
 <section id="food_item_container">
     <div class="container">
         <div id="food_favourites" class="row">
-          <h6>FAVOURITES</h6>   <i class="material-icons i_cart">shopping_cart</i>
+          <h6>FAVOURITES</h6>  
           <p class="hint">Enjoy what you have been ordering</p>
           <section id="favourite_holder" class="card_h"></section>
         </div>
