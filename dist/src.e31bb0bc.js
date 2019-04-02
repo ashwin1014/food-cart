@@ -8094,7 +8094,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8126,7 +8126,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -8161,12 +8161,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
+},{"./bundle-url":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/materialize-css/dist/js/materialize.js":[function(require,module,exports) {
+},{"_css_loader":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/materialize-css/dist/js/materialize.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /*!
@@ -20560,7 +20560,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 window.addEventListener('load', function () {
-  foodApp.fetchFood("http://temp.dash.zeta.in/food.php");
+  foodApp.fetchFood("http://temp.dash.zeta.in/food.php"); // M.AutoInit();
 });
 
 var foodApp = function () {
@@ -20568,6 +20568,7 @@ var foodApp = function () {
 
   var cart = [];
   var count = 0;
+  var cartVisible = false;
 
   var fetchFood =
   /*#__PURE__*/
@@ -20634,7 +20635,7 @@ var foodApp = function () {
       var review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;
       document.querySelector('#food_detail_container').style.display = 'block';
       document.querySelector('#food_item_container').style.display = 'none';
-      document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_add_cart' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_add_cart' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div class=\"d-inline\" style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" class=\"d-inline\">Category: ").concat(category, "</p> <p class=\"d-inline\">").concat(rating, " Rating (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
+      document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div class=\"d-inline\" style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" class=\"d-inline\">Category: ").concat(category, "</p> <p class=\"d-inline\"><i class=\"material-icons d-none\">star_rate</i>").concat(rating, " Rating (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
     }
   };
 
@@ -20674,24 +20675,28 @@ var foodApp = function () {
     console.log(args);
   };
 
-  document.querySelector('nav > div > button:last-child').addEventListener('click', function () {
-    var cartItemHolder = document.createElement('ul');
-    cartItemHolder.setAttribute('class', 'dropdown-content');
-    cartItemHolder.setAttribute('id', 'dropdown-cart');
-    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item1')));
-    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item2')));
-    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item3')));
-    cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item4')));
-    document.body.appendChild(cartItemHolder);
+  document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', function () {
+    var cartItems = document.querySelector('#cart-items');
 
-    _materializeCss.default.Dropdown.init(document.querySelector('.dropdown-trigger'));
+    if (!cartItems) {
+      var cartHolder = document.createElement('div');
+      cartHolder.setAttribute('id', 'cart-items');
+      document.querySelector('.nav-wrapper').appendChild(cartHolder);
+    }
+
+    var cartContent = "\n      <table>\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td>Eclair</td>\n              <td>&#8377; 0.87</td>\n            </tr>\n            <tr>\n              <td>Jellybean</td>\n              <td>&#8377; 3.76</td>\n            </tr>\n            <tr>\n              <td>Lollipop</td>\n              <td>&#8377; 7.00</td>\n            </tr>\n          </tbody>\n       </table>\n      ";
+    cartItems.innerHTML = cartContent;
+
+    if (cartItems.style.display === 'none') {
+      cartItems.style.display = 'block';
+    } else cartItems.style.display = 'none';
   }); //reveal functions
 
   return {
     fetchFood: fetchFood
   };
 }();
-},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -20719,7 +20724,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59517" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "30136" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -20894,5 +20899,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/src.e31bb0bc.js.map

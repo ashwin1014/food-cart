@@ -17,13 +17,19 @@ h6 {
     font-weight: 700;
 }
 
+button:focus {
+    outline: none;
+    background-color:transparent;
+}
+
 .brand-logo {
     background: transparent;
     border: none;
     margin-top: 10px;
 }
 
-.btn_add_cart{
+.btn_add_cart,
+.btn_counter{
     background-color: var(--base-green);
 }
 
@@ -128,6 +134,27 @@ nav {
 #food_detail_container img {
     max-height: 500px;
     max-width: 800px;
+}
+
+#cart-items{
+    background-color: var(--white);
+    color: var(--base-black);
+    min-height: 100px;
+    max-height: 300px;
+    width: 250px;
+    float: right;
+    border: 1px solid #DDD;
+    border-radius: 2px;
+    position: relative;
+    top: 43px;
+    left: 30px;
+    overflow: auto;
+    display: none;
+}
+
+#cart-items td,
+#cart-items th{
+    padding: 0 5px;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

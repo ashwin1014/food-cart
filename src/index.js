@@ -4,6 +4,7 @@ import M from 'materialize-css';
 
 window.addEventListener('load', ()=>{
     foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
+    // M.AutoInit();
 });
 
 
@@ -12,6 +13,7 @@ let foodApp = (()=> {
     
     let cart = [];
     let count = 0;
+    let cartVisible = false;
     
     let fetchFood = async (url) => {
         let response = await fetch(url).catch(err=>console.log(err));
@@ -106,12 +108,12 @@ let foodApp = (()=> {
                      <p class="">&#8377; ${price}</p>
                  </div>
                  <div class="item_btn">
-                     <button class='btn btn_add_cart' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
+                     <button class='btn btn_counter' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
                       <p id="c_count" class="d-inline">0</p>
-                     <button class='btn btn_add_cart' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
+                     <button class='btn btn_counter' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
                  </div>
                  <div class="d-inline" style="margin-top: 50px">
-                  <p style="width: 50%" class="d-inline">Category: ${category}</p> <p class="d-inline">${rating} Rating (${review} Reviews)</p>
+                  <p style="width: 50%" class="d-inline">Category: ${category}</p> <p class="d-inline"><i class="material-icons d-none">star_rate</i>${rating} Rating (${review} Reviews)</p>
                  </div>
                  <h6>DETAILS</h6> 
                  <p>${detail}</p>
@@ -158,19 +160,47 @@ let foodApp = (()=> {
       console.log(args)
     };
 
-    document.querySelector('nav > div > button:last-child').addEventListener('click', ()=> {      
-        let cartItemHolder = document.createElement('ul');
-        cartItemHolder.setAttribute('class','dropdown-content');
-        cartItemHolder.setAttribute('id','dropdown-cart');
-        
-        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item1')));
-        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item2')));
-        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item3')));
-        cartItemHolder.appendChild(document.createElement('li').appendChild(document.createTextNode('Item4')));
-       
+    document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {    
 
-       document.body.appendChild(cartItemHolder);
-       M.Dropdown.init(document.querySelector('.dropdown-trigger'));
+      let cartItems = document.querySelector('#cart-items');
+
+      if(!cartItems) {
+        let cartHolder = document.createElement('div');
+        cartHolder.setAttribute('id','cart-items');
+        document.querySelector('.nav-wrapper').appendChild(cartHolder);
+      }
+     
+      let cartContent = `
+      <table>
+          <thead>
+            <tr>
+                <th>Item Name</th>
+                <th>Item Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Eclair</td>
+              <td>&#8377; 0.87</td>
+            </tr>
+            <tr>
+              <td>Jellybean</td>
+              <td>&#8377; 3.76</td>
+            </tr>
+            <tr>
+              <td>Lollipop</td>
+              <td>&#8377; 7.00</td>
+            </tr>
+          </tbody>
+       </table>
+      `;
+
+      cartItems.innerHTML = cartContent;
+     
+      if(cartItems.style.display === 'none'){
+        cartItems.style.display = 'block'
+      } else cartItems.style.display = 'none'
+
     });
     
     //reveal functions
