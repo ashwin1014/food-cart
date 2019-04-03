@@ -141,7 +141,7 @@ nav {
     color: var(--base-black);
     min-height: 100px;
     max-height: 300px;
-    width: 250px;
+    width: 300px;
     float: right;
     border: 1px solid #DDD;
     border-radius: 2px;

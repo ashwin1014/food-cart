@@ -4,7 +4,6 @@ import M from 'materialize-css';
 
 window.addEventListener('load', ()=>{
     foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
-    // M.AutoInit();
 });
 
 
@@ -13,8 +12,9 @@ let foodApp = (()=> {
     
     let cart = [];
     let count = 0;
-    let cartVisible = false;
-    
+    let cartItemsIsVisible = false;
+
+
     let fetchFood = async (url) => {
         let response = await fetch(url).catch(err=>console.log(err));
         let foodData = await response.json();
@@ -147,59 +147,81 @@ let foodApp = (()=> {
         let detail = e.target.dataset.detail;
         let price = e.target.dataset.price;
         let rating = e.target.dataset.rating;
-        let review = e.target.dataset.review;              
-        addToCart(name, category, image, detail, price, rating, review);
+        let review = e.target.dataset.review;   
+        addToCart(name, price);
         count++;
         document.querySelector('.cart_count').innerHTML = count;
-        // if(document.querySelector('#c_count')) document.querySelector('#c_count').innerHTML = count;
-        console.log(count)
+        
       }
    };
 
-    const addToCart = (...args) => {
-      console.log(args)
+    const addToCart = (name, price) => {
+     // console.log(args)
+
+     for(let i in cart) {
+       if(cart[i].name === name) {
+          cart[i].count += count;
+          updateCartView(cart);
+          return;
+       }
+     }
+
+      let cartItem = {
+         name,
+         price,
+         count: 1
+      };
+
+
+      cart.push(cartItem);
+      console.log(cart)
+      updateCartView(cart);
     };
 
-    document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {    
 
+    const updateCartView = (cart) => {
       let cartItems = document.querySelector('#cart-items');
+      cartItems.innerHTML = '';     
 
-      if(!cartItems) {
-        let cartHolder = document.createElement('div');
-        cartHolder.setAttribute('id','cart-items');
-        document.querySelector('.nav-wrapper').appendChild(cartHolder);
-      }
+      let cartContent = cart.map((ele,i)=>{
+          return `
+             <tr key=${i}>
+                 <td>${ele.name}</td>
+                 <td>&#8377; ${ele.price}</td>
+                 <td>${ele.count}</td>
+             </tr>
+          `;
+      });
+
+      cartContent = cartContent.join('');
      
-      let cartContent = `
+      let cartContentHolder = `
       <table>
           <thead>
             <tr>
                 <th>Item Name</th>
                 <th>Item Price</th>
+                <th>Quantity</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>Eclair</td>
-              <td>&#8377; 0.87</td>
-            </tr>
-            <tr>
-              <td>Jellybean</td>
-              <td>&#8377; 3.76</td>
-            </tr>
-            <tr>
-              <td>Lollipop</td>
-              <td>&#8377; 7.00</td>
-            </tr>
+              ${cartContent}
           </tbody>
-       </table>
-      `;
+       </table>`;
 
-      cartItems.innerHTML = cartContent;
-     
-      if(cartItems.style.display === 'none'){
-        cartItems.style.display = 'block'
-      } else cartItems.style.display = 'none'
+      cartItems.innerHTML = cartContentHolder;
+    };
+
+    document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {  
+
+      let cartItems = document.querySelector('#cart-items');
+
+      if(cartItems.innerHTML==='') cartItems.innerHTML = '<p class="center">No items added to cart</p>';
+      
+      if(cartItemsIsVisible) cartItems.style.display = 'none'
+      else cartItems.style.display = 'block'
+      
+      cartItemsIsVisible = !cartItemsIsVisible;
 
     });
     

@@ -20560,7 +20560,7 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 window.addEventListener('load', function () {
-  foodApp.fetchFood("http://temp.dash.zeta.in/food.php"); // M.AutoInit();
+  foodApp.fetchFood("http://temp.dash.zeta.in/food.php");
 });
 
 var foodApp = function () {
@@ -20568,7 +20568,7 @@ var foodApp = function () {
 
   var cart = [];
   var count = 0;
-  var cartVisible = false;
+  var cartItemsIsVisible = false;
 
   var fetchFood =
   /*#__PURE__*/
@@ -20659,37 +20659,48 @@ var foodApp = function () {
       var price = e.target.dataset.price;
       var rating = e.target.dataset.rating;
       var review = e.target.dataset.review;
-      addToCart(name, category, image, detail, price, rating, review);
+      addToCart(name, price);
       count++;
-      document.querySelector('.cart_count').innerHTML = count; // if(document.querySelector('#c_count')) document.querySelector('#c_count').innerHTML = count;
-
-      console.log(count);
+      document.querySelector('.cart_count').innerHTML = count;
     }
   };
 
-  var addToCart = function addToCart() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
+  var addToCart = function addToCart(name, price) {
+    // console.log(args)
+    for (var i in cart) {
+      if (cart[i].name === name) {
+        cart[i].count += count;
+        updateCartView(cart);
+        return;
+      }
     }
 
-    console.log(args);
+    var cartItem = {
+      name: name,
+      price: price,
+      count: 1
+    };
+    cart.push(cartItem);
+    console.log(cart);
+    updateCartView(cart);
+  };
+
+  var updateCartView = function updateCartView(cart) {
+    var cartItems = document.querySelector('#cart-items');
+    cartItems.innerHTML = '';
+    var cartContent = cart.map(function (ele, i) {
+      return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.count, "</td>\n             </tr>\n          ");
+    });
+    cartContent = cartContent.join('');
+    var cartContentHolder = "\n      <table>\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>");
+    cartItems.innerHTML = cartContentHolder;
   };
 
   document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', function () {
     var cartItems = document.querySelector('#cart-items');
-
-    if (!cartItems) {
-      var cartHolder = document.createElement('div');
-      cartHolder.setAttribute('id', 'cart-items');
-      document.querySelector('.nav-wrapper').appendChild(cartHolder);
-    }
-
-    var cartContent = "\n      <table>\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n            </tr>\n          </thead>\n          <tbody>\n            <tr>\n              <td>Eclair</td>\n              <td>&#8377; 0.87</td>\n            </tr>\n            <tr>\n              <td>Jellybean</td>\n              <td>&#8377; 3.76</td>\n            </tr>\n            <tr>\n              <td>Lollipop</td>\n              <td>&#8377; 7.00</td>\n            </tr>\n          </tbody>\n       </table>\n      ";
-    cartItems.innerHTML = cartContent;
-
-    if (cartItems.style.display === 'none') {
-      cartItems.style.display = 'block';
-    } else cartItems.style.display = 'none';
+    if (cartItems.innerHTML === '') cartItems.innerHTML = '<p class="center">No items added to cart</p>';
+    if (cartItemsIsVisible) cartItems.style.display = 'none';else cartItems.style.display = 'block';
+    cartItemsIsVisible = !cartItemsIsVisible;
   }); //reveal functions
 
   return {
@@ -20724,7 +20735,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "30136" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "20475" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
