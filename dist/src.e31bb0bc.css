@@ -26,6 +26,7 @@ button:focus {
     background: transparent;
     border: none;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .btn_add_cart,
@@ -89,6 +90,7 @@ nav {
 #recipes_card .card{
     max-width: 400px;
     min-height: 530px;
+    cursor: pointer;
 }
 
 #recipes_card .card-image img {
@@ -140,8 +142,8 @@ nav {
     background-color: var(--white);
     color: var(--base-black);
     min-height: 100px;
-    max-height: 300px;
-    width: 300px;
+    max-height: 400px;
+    width: 470px;
     float: right;
     border: 1px solid #DDD;
     border-radius: 2px;
@@ -155,6 +157,7 @@ nav {
 #cart-items td,
 #cart-items th{
     padding: 0 5px;
+    white-space: nowrap;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

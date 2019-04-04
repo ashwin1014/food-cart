@@ -20594,14 +20594,14 @@ var foodApp = function () {
             case 5:
               foodData = _context.sent;
               recipeGrid = foodData.recipes.map(function (item, index) {
-                return "\n                <div class=\"col s12 m6\">\n                <div class=\"card\">\n                  <div class=\"card-image\">\n                    <img src=".concat(item.image, ">\n                  </div>\n                  <div class=\"card-action\">\n                    <div style=\"width: 50%\" class=\"item_detail\"> \n                        <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                        <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                    </div>\n                    <div class=\"item_btn\">\n                        <button class=\"btn btn_add_cart\" data-name=").concat(item.name, " data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                    </div>\n                  </div>\n                </div>\n              </div>");
+                return "\n                <div class=\"col s12 m6\">\n                <div class=\"card hoverable\">\n                  <div class=\"card-image\">\n                    <img src=".concat(item.image, ">\n                  </div>\n                  <div class=\"card-action\">\n                    <div style=\"width: 50%\" class=\"item_detail\"> \n                        <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                        <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                    </div>\n                    <div class=\"item_btn\">\n                        <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                    </div>\n                  </div>\n                </div>\n              </div>");
               });
               document.getElementById('recipes_card').innerHTML = recipeGrid.join('');
               favourites = foodData.recipes.filter(function (item) {
                 return item.isFavourite;
               });
               favouriteGrid = favourites.map(function (item, index) {
-                return "\n            <div class=\"col m6 card_content\">\n            <div class=\"card\">\n              <div class=\"card-image\">\n                <img src=".concat(item.image, ">\n              </div>\n              <div class=\"card-action\">\n                <div style=\"width: 50%\" class=\"item_detail\"> \n                    <p class=\"truncate\" title=").concat(item.name, ">").concat(item.name, "</p>\n                    <p class=\"\">&#8377; ").concat(item.price, "</p>\n                </div>\n                <div class=\"item_btn\">\n                   <button class='btn btn_add_cart' data-name=").concat(item.name, " data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                </div>\n              </div>\n            </div>\n          </div>");
+                return "\n            <div class=\"col m6 card_content\">\n            <div class=\"card hoverable\">\n              <div class=\"card-image\">\n                <img src=".concat(item.image, ">\n              </div>\n              <div class=\"card-action\">\n                <div style=\"width: 50%\" class=\"item_detail\"> \n                    <p class=\"truncate\" title=").concat(item.name, ">").concat(item.name, "</p>\n                    <p class=\"\">&#8377; ").concat(item.price, "</p>\n                </div>\n                <div class=\"item_btn\">\n                   <button class='btn btn_add_cart' data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                </div>\n              </div>\n            </div>\n          </div>");
               });
               document.getElementById('favourite_holder').innerHTML = favouriteGrid.join('');
 
@@ -20635,7 +20635,7 @@ var foodApp = function () {
       var review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;
       document.querySelector('#food_detail_container').style.display = 'block';
       document.querySelector('#food_item_container').style.display = 'none';
-      document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter' data-name=").concat(name, " data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div class=\"d-inline\" style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" class=\"d-inline\">Category: ").concat(category, "</p> <p class=\"d-inline\"><i class=\"material-icons d-none\">star_rate</i>").concat(rating, " Rating (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
+      document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div class=\"d-inline\" style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" class=\"d-inline\">Category: ").concat(category, "</p> <p class=\"d-inline\"><i class=\"material-icons d-none\">star_rate</i>").concat(rating, " Rating (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
     }
   };
 
@@ -20652,13 +20652,13 @@ var foodApp = function () {
 
   var cartBtn = function cartBtn(e) {
     if (e.target.nodeName === 'BUTTON') {
-      var name = e.target.dataset.name;
-      var category = e.target.dataset.category;
-      var image = e.target.dataset.image;
-      var detail = e.target.dataset.detail;
-      var price = e.target.dataset.price;
-      var rating = e.target.dataset.rating;
-      var review = e.target.dataset.review;
+      var name = e.target.dataset.name; // let category = e.target.dataset.category;
+      // let image = e.target.dataset.image;
+      // let detail = e.target.dataset.detail;
+
+      var price = e.target.dataset.price; // let rating = e.target.dataset.rating;
+      // let review = e.target.dataset.review;   
+
       addToCart(name, price);
       count++;
       document.querySelector('.cart_count').innerHTML = count;
@@ -20669,7 +20669,7 @@ var foodApp = function () {
     // console.log(args)
     for (var i in cart) {
       if (cart[i].name === name) {
-        cart[i].count += count;
+        cart[i].quantity = cart[i].quantity + 1;
         updateCartView(cart);
         return;
       }
@@ -20678,10 +20678,10 @@ var foodApp = function () {
     var cartItem = {
       name: name,
       price: price,
-      count: 1
+      quantity: 1
     };
-    cart.push(cartItem);
-    console.log(cart);
+    cart.push(cartItem); // console.log(cart)
+
     updateCartView(cart);
   };
 
@@ -20689,10 +20689,10 @@ var foodApp = function () {
     var cartItems = document.querySelector('#cart-items');
     cartItems.innerHTML = '';
     var cartContent = cart.map(function (ele, i) {
-      return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.count, "</td>\n             </tr>\n          ");
+      return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.quantity, "</td>\n                 <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n                 <td><a class=\"btn-floating btn-small red darken-2\"><i class=\"material-icons\">delete</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\">-</a></td>\n             </tr>\n          ");
     });
     cartContent = cartContent.join('');
-    var cartContentHolder = "\n      <table>\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>");
+    var cartContentHolder = "\n      <table class=\"highlight responsive-table\">\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n                <th>Total</th>\n                <th></th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>");
     cartItems.innerHTML = cartContentHolder;
   };
 
@@ -20735,7 +20735,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "20475" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "26299" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

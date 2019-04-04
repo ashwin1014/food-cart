@@ -11,7 +11,7 @@ let foodApp = (()=> {
   "use strict";
     
     let cart = [];
-    let count = 0;
+    let count = 0;    
     let cartItemsIsVisible = false;
 
 
@@ -22,7 +22,7 @@ let foodApp = (()=> {
          let recipeGrid = foodData.recipes.map((item, index)=>{
                 return `
                 <div class="col s12 m6">
-                <div class="card">
+                <div class="card hoverable">
                   <div class="card-image">
                     <img src=${item.image}>
                   </div>
@@ -32,7 +32,7 @@ let foodApp = (()=> {
                         <p class="">&#8377; ${item.price}</p>                       
                     </div>
                     <div class="item_btn">
-                        <button class="btn btn_add_cart" data-name=${item.name} data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>ADD TO BAG</button>
+                        <button class="btn btn_add_cart" data-name="${item.name}" data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>ADD TO BAG</button>
                     </div>
                   </div>
                 </div>
@@ -48,7 +48,7 @@ let foodApp = (()=> {
          let favouriteGrid = favourites.map((item, index)=>{
             return `
             <div class="col m6 card_content">
-            <div class="card">
+            <div class="card hoverable">
               <div class="card-image">
                 <img src=${item.image}>
               </div>
@@ -58,7 +58,7 @@ let foodApp = (()=> {
                     <p class="">&#8377; ${item.price}</p>
                 </div>
                 <div class="item_btn">
-                   <button class='btn btn_add_cart' data-name=${item.name} data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>ADD TO BAG</button>
+                   <button class='btn btn_add_cart' data-name="${item.name}" data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>ADD TO BAG</button>
                 </div>
               </div>
             </div>
@@ -108,9 +108,9 @@ let foodApp = (()=> {
                      <p class="">&#8377; ${price}</p>
                  </div>
                  <div class="item_btn">
-                     <button class='btn btn_counter' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
+                     <button class='btn btn_counter' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
                       <p id="c_count" class="d-inline">0</p>
-                     <button class='btn btn_counter' data-name=${name} data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
+                     <button class='btn btn_counter' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
                  </div>
                  <div class="d-inline" style="margin-top: 50px">
                   <p style="width: 50%" class="d-inline">Category: ${category}</p> <p class="d-inline"><i class="material-icons d-none">star_rate</i>${rating} Rating (${review} Reviews)</p>
@@ -142,12 +142,12 @@ let foodApp = (()=> {
    const cartBtn = (e) => {
       if(e.target.nodeName === 'BUTTON'){
         let name = e.target.dataset.name;
-        let category = e.target.dataset.category;
-        let image = e.target.dataset.image;
-        let detail = e.target.dataset.detail;
+        // let category = e.target.dataset.category;
+        // let image = e.target.dataset.image;
+        // let detail = e.target.dataset.detail;
         let price = e.target.dataset.price;
-        let rating = e.target.dataset.rating;
-        let review = e.target.dataset.review;   
+        // let rating = e.target.dataset.rating;
+        // let review = e.target.dataset.review;   
         addToCart(name, price);
         count++;
         document.querySelector('.cart_count').innerHTML = count;
@@ -160,7 +160,7 @@ let foodApp = (()=> {
 
      for(let i in cart) {
        if(cart[i].name === name) {
-          cart[i].count += count;
+          cart[i].quantity = cart[i].quantity+1;
           updateCartView(cart);
           return;
        }
@@ -169,12 +169,12 @@ let foodApp = (()=> {
       let cartItem = {
          name,
          price,
-         count: 1
+         quantity: 1
       };
 
 
       cart.push(cartItem);
-      console.log(cart)
+      // console.log(cart)
       updateCartView(cart);
     };
 
@@ -188,7 +188,10 @@ let foodApp = (()=> {
              <tr key=${i}>
                  <td>${ele.name}</td>
                  <td>&#8377; ${ele.price}</td>
-                 <td>${ele.count}</td>
+                 <td>${ele.quantity}</td>
+                 <td>&#8377; ${ele.quantity*ele.price}</td>
+                 <td><a class="btn-floating btn-small red darken-2"><i class="material-icons">delete</i></a></td>
+                 <td><a class="btn-floating btn-small red darken-2">-</a></td>
              </tr>
           `;
       });
@@ -196,12 +199,14 @@ let foodApp = (()=> {
       cartContent = cartContent.join('');
      
       let cartContentHolder = `
-      <table>
+      <table class="highlight responsive-table">
           <thead>
             <tr>
                 <th>Item Name</th>
                 <th>Item Price</th>
                 <th>Quantity</th>
+                <th>Total</th>
+                <th></th>
             </tr>
           </thead>
           <tbody>
