@@ -90,7 +90,9 @@ let foodApp = (()=> {
               let detail = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.detail;
               let price = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.price;
               let rating = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.rating;
-              let review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;        
+              let review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;    
+              
+              // let {name, category, detail, price, rating, review} = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset
  
              document.querySelector('#food_detail_container').style.display = 'block';
              document.querySelector('#food_item_container').style.display = 'none';
@@ -138,6 +140,11 @@ let foodApp = (()=> {
       cartBtn(e);
     });
 
+    document.querySelector('#favourite_holder').addEventListener('click',  (e)=> {
+      cartBtn(e);
+    });
+
+
 
    const cartBtn = (e) => {
       if(e.target.nodeName === 'BUTTON'){
@@ -156,8 +163,6 @@ let foodApp = (()=> {
    };
 
     const addToCart = (name, price) => {
-     // console.log(args)
-
      for(let i in cart) {
        if(cart[i].name === name) {
           cart[i].quantity = cart[i].quantity+1;
@@ -172,9 +177,7 @@ let foodApp = (()=> {
          quantity: 1
       };
 
-
       cart.push(cartItem);
-      // console.log(cart)
       updateCartView(cart);
     };
 

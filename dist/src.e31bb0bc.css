@@ -160,4 +160,9 @@ nav {
     white-space: nowrap;
 }
 
+#cart-items .btn-small{
+    line-height: 22.4px;
+    font-size: 40px;
+}
+
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

@@ -159,3 +159,8 @@ nav {
     padding: 0 5px;
     white-space: nowrap;
 }
+
+#cart-items .btn-small{
+    line-height: 22.4px;
+    font-size: 40px;
+}

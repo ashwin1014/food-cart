@@ -20632,7 +20632,8 @@ var foodApp = function () {
       var detail = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.detail;
       var price = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.price;
       var rating = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.rating;
-      var review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;
+      var review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review; // let {name, category, detail, price, rating, review} = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset
+
       document.querySelector('#food_detail_container').style.display = 'block';
       document.querySelector('#food_item_container').style.display = 'none';
       document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div class=\"d-inline\" style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" class=\"d-inline\">Category: ").concat(category, "</p> <p class=\"d-inline\"><i class=\"material-icons d-none\">star_rate</i>").concat(rating, " Rating (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
@@ -20647,6 +20648,9 @@ var foodApp = function () {
     cartBtn(e);
   });
   document.querySelector('#food_detail_container').addEventListener('click', function (e) {
+    cartBtn(e);
+  });
+  document.querySelector('#favourite_holder').addEventListener('click', function (e) {
     cartBtn(e);
   });
 
@@ -20666,7 +20670,6 @@ var foodApp = function () {
   };
 
   var addToCart = function addToCart(name, price) {
-    // console.log(args)
     for (var i in cart) {
       if (cart[i].name === name) {
         cart[i].quantity = cart[i].quantity + 1;
@@ -20680,8 +20683,7 @@ var foodApp = function () {
       price: price,
       quantity: 1
     };
-    cart.push(cartItem); // console.log(cart)
-
+    cart.push(cartItem);
     updateCartView(cart);
   };
 
@@ -20735,7 +20737,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "26299" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "1961" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
