@@ -55,7 +55,6 @@ button:focus {
     background: transparent;
     border: none;
     margin-right: 10px;
-
 }
 
 .item_detail {
@@ -73,9 +72,13 @@ nav {
 .item_btn {
     width: 50%;
     position: relative;
-    bottom: 60px;
+    bottom: 45px;
     left: 18px;
     float: right;
+}
+
+#food_detail_container .item_btn {
+    bottom: 90px;
 }
 
 #food_categories .btn-floating{
@@ -108,6 +111,7 @@ nav {
     min-height: 200px;
     display: flex;
     overflow-x: auto;
+    overflow-y: hidden;
   }
 
   .card_content{
@@ -152,6 +156,7 @@ nav {
     left: 30px;
     overflow: auto;
     display: none;
+    user-select: none;
 }
 
 #cart-items td,
@@ -163,6 +168,12 @@ nav {
 #cart-items .btn-small{
     line-height: 22.4px;
     font-size: 40px;
+}
+
+.rating {
+    position: relative;
+    top: 6px;
+    color: #b1b11f;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

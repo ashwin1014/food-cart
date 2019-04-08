@@ -1,6 +1,6 @@
 import "babel-polyfill";
 import './style.css';
-import M from 'materialize-css';
+// import M from 'materialize-css';
 
 window.addEventListener('load', ()=>{
     foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
@@ -11,9 +11,7 @@ let foodApp = (()=> {
   "use strict";
     
     let cart = [];
-    let count = 0;    
     let cartItemsIsVisible = false;
-
 
     let fetchFood = async (url) => {
         let response = await fetch(url).catch(err=>console.log(err));
@@ -41,9 +39,7 @@ let foodApp = (()=> {
 
          document.getElementById('recipes_card').innerHTML = recipeGrid.join('');
 
-         let favourites = foodData.recipes.filter(item => {
-             return item.isFavourite;
-         });
+         let favourites = foodData.recipes.filter(item => item.isFavourite);
 
          let favouriteGrid = favourites.map((item, index)=>{
             return `
@@ -54,7 +50,7 @@ let foodApp = (()=> {
               </div>
               <div class="card-action">
                 <div style="width: 50%" class="item_detail"> 
-                    <p class="truncate" title=${item.name}>${item.name}</p>
+                    <p class="truncate" title="${item.name}">${item.name}</p>
                     <p class="">&#8377; ${item.price}</p>
                 </div>
                 <div class="item_btn">
@@ -69,12 +65,9 @@ let foodApp = (()=> {
 
     };
 
-  
-
     document.querySelector('#recipes_card').addEventListener('click', (e)=>{
         renderDetailView(e);
     });
-
 
     document.querySelector('#favourite_holder').addEventListener('click', (e)=>{
         renderDetailView(e);
@@ -83,16 +76,9 @@ let foodApp = (()=> {
 
     const renderDetailView = (e) => {
         
-        if(e.target.nodeName === 'IMG') {
-            
-              let name = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.name;
-              let category = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.category;
-              let detail = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.detail;
-              let price = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.price;
-              let rating = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.rating;
-              let review = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset.review;    
+        if(e.target.nodeName === 'IMG') {              
               
-              // let {name, category, detail, price, rating, review} = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset
+              let {name, category, detail, price, rating, review} = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset
  
              document.querySelector('#food_detail_container').style.display = 'block';
              document.querySelector('#food_item_container').style.display = 'none';
@@ -114,8 +100,9 @@ let foodApp = (()=> {
                       <p id="c_count" class="d-inline">0</p>
                      <button class='btn btn_counter' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
                  </div>
-                 <div class="d-inline" style="margin-top: 50px">
-                  <p style="width: 50%" class="d-inline">Category: ${category}</p> <p class="d-inline"><i class="material-icons d-none">star_rate</i>${rating} Rating (${review} Reviews)</p>
+                 <div style="margin-top: 50px">
+                  <p style="width: 50%" >Category: ${category}</p>
+                  <p>Rating: ${rating}<i class="material-icons rating">star</i> (${review} Reviews)</p>
                  </div>
                  <h6>DETAILS</h6> 
                  <p>${detail}</p>
@@ -148,17 +135,8 @@ let foodApp = (()=> {
 
    const cartBtn = (e) => {
       if(e.target.nodeName === 'BUTTON'){
-        let name = e.target.dataset.name;
-        // let category = e.target.dataset.category;
-        // let image = e.target.dataset.image;
-        // let detail = e.target.dataset.detail;
-        let price = e.target.dataset.price;
-        // let rating = e.target.dataset.rating;
-        // let review = e.target.dataset.review;   
+        let {name, price} = e.target.dataset;      
         addToCart(name, price);
-        count++;
-        document.querySelector('.cart_count').innerHTML = count;
-        
       }
    };
 
@@ -181,6 +159,48 @@ let foodApp = (()=> {
       updateCartView(cart);
     };
 
+    const clearAllFromCart = () => cart.length=0;
+
+    const removeSingleItemFromCart = (name) => {
+      for(let i in cart) {
+        if(cart[i].name === name){
+          cart[i].quantity = cart[i].quantity-1;
+          updateCartView(cart);
+          if(cart[i].quantity === 0){
+            cart.splice(i,1);
+            updateCartView(cart);
+            break;
+          }
+        }
+      }
+    };
+
+    const removeItemAllFromCart = (name) => {
+      for(let i in cart){
+        if(cart[i].name === name){
+          cart.splice(i,1);
+          updateCartView(cart);
+          break;
+        }
+      }
+    };
+
+    const getCartItemsCount = () =>{
+      let totalCount = 0;
+      cart.map((ele)=>{
+        totalCount += ele.quantity;
+      });  
+      return totalCount;
+    };
+    
+
+    const getTotalCost = () =>{
+      let totalCost = 0;
+      cart.map((ele)=>{
+        totalCost += ele.quantity*ele.price;
+      });  
+      return totalCost;
+    };
 
     const updateCartView = (cart) => {
       let cartItems = document.querySelector('#cart-items');
@@ -193,8 +213,8 @@ let foodApp = (()=> {
                  <td>&#8377; ${ele.price}</td>
                  <td>${ele.quantity}</td>
                  <td>&#8377; ${ele.quantity*ele.price}</td>
-                 <td><a class="btn-floating btn-small red darken-2"><i class="material-icons">delete</i></a></td>
-                 <td><a class="btn-floating btn-small red darken-2">-</a></td>
+                 <td><a class="btn-floating btn-small red darken-2" title="Remove current all items"><i class="material-icons">delete</i></a></td>
+                 <td><a class="btn-floating btn-small red darken-2" title="Remove single item"><i class="material-icons">exposure_neg_1</i></a></td>
              </tr>
           `;
       });
@@ -209,27 +229,45 @@ let foodApp = (()=> {
                 <th>Item Price</th>
                 <th>Quantity</th>
                 <th>Total</th>
-                <th></th>
+                <th><a class="btn-floating btn-small red darken-2" title="Clear entire cart"><i class="material-icons">clear</i></a></th>
             </tr>
           </thead>
           <tbody>
               ${cartContent}
           </tbody>
-       </table>`;
+       </table>
+       <div><strong>Total:</strong> &#8377; ${getTotalCost()}</div>`;
 
       cartItems.innerHTML = cartContentHolder;
+      document.querySelector('.cart_count').innerHTML = getCartItemsCount();
+      if(document.querySelectorAll('.responsive-table tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
     };
 
     document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {  
 
       let cartItems = document.querySelector('#cart-items');
 
-      if(cartItems.innerHTML==='') cartItems.innerHTML = '<p class="center">No items added to cart</p>';
+      if(cartItems.innerHTML==='') cartItems.innerHTML = '<p class="center">No items in cart</p>';
       
-      if(cartItemsIsVisible) cartItems.style.display = 'none'
-      else cartItems.style.display = 'block'
+      if(cartItemsIsVisible) cartItems.style.display = 'none';
+      else cartItems.style.display = 'block';
       
       cartItemsIsVisible = !cartItemsIsVisible;
+
+    });
+
+    document.querySelector('#cart-items').addEventListener('click', (e)=>{
+        let text = e.target.parentElement.innerText;
+
+        if(text==='clear'){
+          clearAllFromCart();
+          updateCartView(cart);
+          document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
+        }else if(text==='exposure_neg_1'){
+           removeSingleItemFromCart(""+e.target.parentElement.parentElement.parentElement.children[0].innerText+"");
+        }else if(text==='delete'){
+           removeItemAllFromCart(""+e.target.parentElement.parentElement.parentElement.children[0].innerText+"");
+        }
 
     });
     
