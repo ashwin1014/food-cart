@@ -214,7 +214,8 @@ let foodApp = (()=> {
                  <td>${ele.quantity}</td>
                  <td>&#8377; ${ele.quantity*ele.price}</td>
                  <td><a class="btn-floating btn-small red darken-2" title="Remove current all items"><i class="material-icons">delete</i></a></td>
-                 <td><a class="btn-floating btn-small red darken-2" title="Remove single item"><i class="material-icons">exposure_neg_1</i></a></td>
+                 <td><a class="btn-floating btn-small red darken-2" title="Decrease item quantity"><i class="material-icons">exposure_neg_1</i></a></td>
+                 <td><a class="btn-floating btn-small red darken-2" title="Increase item quantity"><i class="material-icons">exposure_plus_1</i></a></td>
              </tr>
           `;
       });

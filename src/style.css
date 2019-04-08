@@ -175,3 +175,13 @@ nav {
     top: 6px;
     color: #b1b11f;
 }
+
+#cart-items .btn-floating.btn-small{
+    width: 20px;
+    height: 20px;
+}
+
+#cart-items i.material-icons{
+    font-size: 14px;
+    line-height: 21.4px;
+}

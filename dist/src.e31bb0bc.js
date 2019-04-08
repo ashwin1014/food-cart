@@ -8094,7 +8094,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8126,7 +8126,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -8161,12 +8161,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
+},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
+},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
@@ -8348,7 +8348,7 @@ var foodApp = function () {
     var cartItems = document.querySelector('#cart-items');
     cartItems.innerHTML = '';
     var cartContent = cart.map(function (ele, i) {
-      return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.quantity, "</td>\n                 <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove single item\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n             </tr>\n          ");
+      return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.quantity, "</td>\n                 <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td>\n             </tr>\n          ");
     });
     cartContent = cartContent.join('');
     var cartContentHolder = "\n      <table class=\"highlight responsive-table\">\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n                <th>Total</th>\n                <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>\n       <div><strong>Total:</strong> &#8377; ").concat(getTotalCost(), "</div>");
@@ -8381,7 +8381,7 @@ var foodApp = function () {
     fetchFood: fetchFood
   };
 }();
-},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -8409,7 +8409,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "14897" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62957" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -8584,5 +8584,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/src.e31bb0bc.js.map
