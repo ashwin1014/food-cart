@@ -20544,6 +20544,42 @@ $jscomp.polyfill = function (e, r, p, m) {
   Range.init($('input[type=range]'));
 })(cash, M.anime);
 
+},{}],"checkout.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _default = function _default(cart) {
+  document.querySelector('#food_item_container').style.display = 'none';
+  document.querySelector('#food_detail_container').style.display = 'none';
+  document.querySelector('.dropdown-trigger').style.display = 'none';
+  document.querySelector('#cart-items').style.display = 'none';
+  var cartContent = cart.map(function (ele, i) {
+    return "\n           <tr key=".concat(i, ">\n               <td>").concat(ele.name, "</td>\n               <td>&#8377; ").concat(ele.price, "</td>\n               <td>").concat(ele.quantity, "</td>\n               <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n              <!-- <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td> -->\n           </tr>\n        ");
+  });
+  cartContent = cartContent.join('');
+  var cartContentHolder = "\n    <table class=\"highlight responsive-table\">\n        <thead>\n          <tr>\n              <th>Item Name</th>\n              <th>Item Price</th>\n              <th>Quantity</th>\n              <th>Total</th>\n           <!--   <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>-->\n          </tr>\n        </thead>\n        <tbody>\n            ".concat(cartContent, "\n        </tbody>\n     </table>\n     <div><strong>Total:</strong> &#8377; 0</div>\n     ");
+
+  if (!document.querySelector('#checkoutDisplay')) {
+    var checkoutDisplay = document.createElement('section');
+    checkoutDisplay.setAttribute('id', 'checkoutDisplay');
+    checkoutDisplay.setAttribute('class', 'container');
+    document.body.appendChild(checkoutDisplay);
+    document.querySelector('#checkoutDisplay').style.display = 'block';
+    document.querySelector('#checkoutDisplay').innerHTML = cartContentHolder;
+  } else if (document.querySelector('#checkoutDisplay')) {
+    document.querySelector('#checkoutDisplay').style.display = 'block';
+    document.querySelector('#checkoutDisplay').innerHTML = '';
+    document.querySelector('#checkoutDisplay').innerHTML = cartContentHolder;
+  }
+
+  ;
+};
+
+exports.default = _default;
 },{}],"index.js":[function(require,module,exports) {
 "use strict";
 
@@ -20552,6 +20588,8 @@ require("babel-polyfill");
 require("./style.css");
 
 var _materializeCss = _interopRequireDefault(require("materialize-css"));
+
+var _checkout = _interopRequireDefault(require("./checkout"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20592,7 +20630,7 @@ var foodApp = function () {
 
             case 5:
               foodData = _context.sent;
-              recipeGrid = foodData.recipes.map(function (item, index) {
+              recipeGrid = foodData.recipes.map(function (item) {
                 return "\n                <div class=\"col s12 m6\">\n                <div class=\"card hoverable\">\n                  <div class=\"card-image\">\n                    <img src=".concat(item.image, ">\n                  </div>\n                  <div class=\"card-action\">\n                    <div style=\"width: 50%\" class=\"item_detail\"> \n                        <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                        <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                    </div>\n                    <div class=\"item_btn\">\n                        <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                    </div>\n                  </div>\n                </div>\n              </div>");
               });
               document.getElementById('recipes_card').innerHTML = recipeGrid.join('');
@@ -20641,8 +20679,11 @@ var foodApp = function () {
   };
 
   document.querySelector('.brand-logo').addEventListener('click', function () {
+    if (document.querySelector('#checkoutDisplay')) document.querySelector('#checkoutDisplay').style.display = 'none';
     document.querySelector('#food_detail_container').style.display = 'none';
     document.querySelector('#food_item_container').style.display = 'block';
+    document.querySelector('.dropdown-trigger').style.display = 'block';
+    cartItemsIsVisible = !cartItemsIsVisible;
   });
   document.querySelector('#recipes_card').addEventListener('click', function (e) {
     cartBtn(e);
@@ -20727,13 +20768,13 @@ var foodApp = function () {
   };
 
   var getCurrentItemCout = function getCurrentItemCout(name) {
-    debugger;
-
     if (cart !== undefined) {
       for (var i in cart) {
-        if (cart[i].name === name) {
+        if (cart[i].name === name && document.querySelector('#c_count')) {
           document.querySelector('#c_count').textContent = cart[i].quantity;
-        } else document.querySelector('#c_count').textContent = '0';
+        } else if (cart[i].name !== name && document.querySelector('#c_count')) {
+          document.querySelector('#c_count').textContent = '0';
+        }
       }
     }
   };
@@ -20753,11 +20794,10 @@ var foodApp = function () {
       return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.quantity, "</td>\n                 <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td>\n             </tr>\n          ");
     });
     cartContent = cartContent.join('');
-    var cartContentHolder = "\n      <table class=\"highlight responsive-table\">\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n                <th>Total</th>\n                <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>\n       <div><strong>Total:</strong> &#8377; ").concat(getTotalCost(), "</div>");
+    var cartContentHolder = "\n      <table class=\"highlight responsive-table\">\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n                <th>Total</th>\n                <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>\n       <div><strong>Total:</strong> &#8377; ").concat(getTotalCost(), "</div>\n       <div><button class=\"btn\" id=\"btn_checkout\">Checkout</button></div>\n       ");
     cartItems.innerHTML = cartContentHolder;
     document.querySelector('.cart_count').innerHTML = getCartItemsCount();
     if (document.querySelectorAll('.responsive-table tbody tr').length === 0) document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
-    console.log(cart);
   };
 
   var itemAlert = function itemAlert(item, isAdded) {
@@ -20787,6 +20827,8 @@ var foodApp = function () {
       removeItemAllFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
     } else if (text === 'exposure_plus_1') {
       addToCart(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹', '').trim());
+    } else if (e.target.id === 'btn_checkout') {
+      (0, _checkout.default)(cart);
     }
   }); //reveal functions
 
@@ -20794,7 +20836,7 @@ var foodApp = function () {
     fetchFood: fetchFood
   };
 }();
-},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js","./checkout":"checkout.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

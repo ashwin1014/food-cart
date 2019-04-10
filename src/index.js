@@ -1,6 +1,7 @@
 import "babel-polyfill";
 import './style.css';
 import M from 'materialize-css';
+import checkout from './checkout';
 
 window.addEventListener('load', ()=>{
     foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
@@ -17,7 +18,7 @@ let foodApp = (()=> {
         let response = await fetch(url).catch(err=>console.log(err));
         let foodData = await response.json();
         
-         let recipeGrid = foodData.recipes.map((item, index)=>{
+         let recipeGrid = foodData.recipes.map(item=>{
                 return `
                 <div class="col s12 m6">
                 <div class="card hoverable">
@@ -114,8 +115,12 @@ let foodApp = (()=> {
     };
 
     document.querySelector('.brand-logo').addEventListener('click',()=>{
+      if(document.querySelector('#checkoutDisplay')) document.querySelector('#checkoutDisplay').style.display = 'none';
+      
       document.querySelector('#food_detail_container').style.display = 'none';
       document.querySelector('#food_item_container').style.display = 'block';
+      document.querySelector('.dropdown-trigger').style.display = 'block';
+      cartItemsIsVisible = !cartItemsIsVisible;
     })
 
     
@@ -201,12 +206,13 @@ let foodApp = (()=> {
     };
 
     const getCurrentItemCout = (name) => {
-      debugger;
       if(cart !== undefined) {
         for(let i in cart){
-          if(cart[i].name === name){
+          if(cart[i].name === name && document.querySelector('#c_count')){
             document.querySelector('#c_count').textContent = cart[i].quantity;
-          } else document.querySelector('#c_count').textContent = '0';
+          } else if(cart[i].name !== name &&  document.querySelector('#c_count')){
+            document.querySelector('#c_count').textContent = '0';
+          }
         }
       }
     };
@@ -255,16 +261,18 @@ let foodApp = (()=> {
               ${cartContent}
           </tbody>
        </table>
-       <div><strong>Total:</strong> &#8377; ${getTotalCost()}</div>`;
+       <div><strong>Total:</strong> &#8377; ${getTotalCost()}</div>
+       <div><button class="btn" id="btn_checkout">Checkout</button></div>
+       `;
+       
 
       cartItems.innerHTML = cartContentHolder;
       document.querySelector('.cart_count').innerHTML = getCartItemsCount();
-      if(document.querySelectorAll('.responsive-table tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
-      console.log(cart)
+      if(document.querySelectorAll('.responsive-table tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';      
     };
 
     const itemAlert = (item, isAdded) => {
-      if(isAdded) M.toast({html: `${item} added to cart`, displayLength: '1000'});
+      if(isAdded) M.toast({html: `${item} added to cart`, displayLength: '1000'});      
     };
 
     document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {  
@@ -282,21 +290,23 @@ let foodApp = (()=> {
 
     document.querySelector('#cart-items').addEventListener('click', (e)=>{
         let text = e.target.parentElement.innerText;
-        if(text==='clear'){
+        if(text ==='clear'){
           clearAllFromCart();
           updateCartView(cart);
           document.querySelector('#c_count').textContent = '0';
           document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
-        }else if(text==='exposure_neg_1'){
+        }else if(text ==='exposure_neg_1'){
            removeSingleItemFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
-        }else if(text==='delete'){
+        }else if(text === 'delete'){
            removeItemAllFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
         }else if(text === 'exposure_plus_1'){
           addToCart(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹','').trim());
+        }else if(e.target.id === 'btn_checkout') {
+          checkout(cart);
         }
 
     });
-    
+         
     //reveal functions
     return {
       fetchFood: fetchFood,     

@@ -185,3 +185,7 @@ nav {
     font-size: 14px;
     line-height: 21.4px;
 }
+
+#checkoutDisplay{
+    display: none;
+}
