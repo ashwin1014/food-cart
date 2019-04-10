@@ -90,10 +90,13 @@ nav {
     visibility: visible;
 }
 
+
 #recipes_card .card{
     max-width: 400px;
     min-height: 530px;
     cursor: pointer;
+    margin: auto;
+    margin-bottom: 30px;
 }
 
 #recipes_card .card-image img {

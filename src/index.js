@@ -272,7 +272,7 @@ let foodApp = (()=> {
     };
 
     const itemAlert = (item, isAdded) => {
-      if(isAdded) M.toast({html: `${item} added to cart`, displayLength: '1000'});      
+      if(isAdded) M.toast({html: `${item} added to cart`, displayLength: '1500'});      
     };
 
     document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {  
