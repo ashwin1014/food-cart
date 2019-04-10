@@ -1,6 +1,6 @@
 import "babel-polyfill";
 import './style.css';
-// import M from 'materialize-css';
+import M from 'materialize-css';
 
 window.addEventListener('load', ()=>{
     foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
@@ -157,6 +157,7 @@ let foodApp = (()=> {
 
       cart.push(cartItem);
       updateCartView(cart);
+      itemAlert(name, true);
     };
 
     const clearAllFromCart = () => cart.length=0;
@@ -241,6 +242,10 @@ let foodApp = (()=> {
       cartItems.innerHTML = cartContentHolder;
       document.querySelector('.cart_count').innerHTML = getCartItemsCount();
       if(document.querySelectorAll('.responsive-table tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
+    };
+
+    const itemAlert = (item, isAdded) => {
+      if(isAdded) M.toast({html: `${item} added to cart`, displayLength: '1000'});
     };
 
     document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {  
