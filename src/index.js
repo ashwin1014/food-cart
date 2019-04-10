@@ -70,7 +70,7 @@ let foodApp = (()=> {
     });
 
     document.querySelector('#favourite_holder').addEventListener('click', (e)=>{
-        renderDetailView(e);
+        renderDetailView(e);               
     });
 
 
@@ -96,9 +96,9 @@ let foodApp = (()=> {
                      <p class="">&#8377; ${price}</p>
                  </div>
                  <div class="item_btn">
-                     <button class='btn btn_counter' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
+                     <button class='btn btn_counter_u' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>+</button>
                       <p id="c_count" class="d-inline">0</p>
-                     <button class='btn btn_counter' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
+                     <button class='btn btn_counter_d' data-name="${name}" data-image=${e.target.src} data-price=${price} data-category=${category} data-rating=${rating} data-detail="${detail}" data-review=${review}>-</button>
                  </div>
                  <div style="margin-top: 50px">
                   <p style="width: 50%" >Category: ${category}</p>
@@ -108,8 +108,8 @@ let foodApp = (()=> {
                  <p>${detail}</p>
                </div>
              </div>
-           </div>`;          
-
+           </div>`;              
+           getCurrentItemCout(name);
           }
     };
 
@@ -124,7 +124,8 @@ let foodApp = (()=> {
     });
 
     document.querySelector('#food_detail_container').addEventListener('click',  (e)=> {
-      cartBtn(e);
+      if(e.target.className.includes('btn_counter_u')) cartBtn(e);
+      else removeSingleItemFromCart(e.target.dataset.name);      
     });
 
     document.querySelector('#favourite_holder').addEventListener('click',  (e)=> {
@@ -145,6 +146,7 @@ let foodApp = (()=> {
        if(cart[i].name === name) {
           cart[i].quantity = cart[i].quantity+1;
           updateCartView(cart);
+          getCurrentItemCout(cart[i].name);
           return;
        }
      }
@@ -157,6 +159,7 @@ let foodApp = (()=> {
 
       cart.push(cartItem);
       updateCartView(cart);
+      getCurrentItemCout(cartItem.name);
       itemAlert(name, true);
     };
 
@@ -169,11 +172,13 @@ let foodApp = (()=> {
           updateCartView(cart);
           if(cart[i].quantity === 0){
             cart.splice(i,1);
+            document.querySelector('#c_count').textContent = '0';
             updateCartView(cart);
             break;
           }
         }
       }
+      getCurrentItemCout(name);
     };
 
     const removeItemAllFromCart = (name) => {
@@ -184,6 +189,7 @@ let foodApp = (()=> {
           break;
         }
       }
+      document.querySelector('#c_count').textContent = '0';
     };
 
     const getCartItemsCount = () =>{
@@ -193,9 +199,20 @@ let foodApp = (()=> {
       });  
       return totalCount;
     };
+
+    const getCurrentItemCout = (name) => {
+      debugger;
+      if(cart !== undefined) {
+        for(let i in cart){
+          if(cart[i].name === name){
+            document.querySelector('#c_count').textContent = cart[i].quantity;
+          } else document.querySelector('#c_count').textContent = '0';
+        }
+      }
+    };
     
 
-    const getTotalCost = () =>{
+    const getTotalCost = () => {
       let totalCost = 0;
       cart.map((ele)=>{
         totalCost += ele.quantity*ele.price;
@@ -207,7 +224,7 @@ let foodApp = (()=> {
       let cartItems = document.querySelector('#cart-items');
       cartItems.innerHTML = '';     
 
-      let cartContent = cart.map((ele,i)=>{
+      let cartContent = cart.map((ele,i)=> {
           return `
              <tr key=${i}>
                  <td>${ele.name}</td>
@@ -215,7 +232,8 @@ let foodApp = (()=> {
                  <td>${ele.quantity}</td>
                  <td>&#8377; ${ele.quantity*ele.price}</td>
                  <td><a class="btn-floating btn-small red darken-2" title="Remove current all items"><i class="material-icons">delete</i></a></td>
-                 <td><a class="btn-floating btn-small red darken-2" title="Remove single item"><i class="material-icons">exposure_neg_1</i></a></td>
+                 <td><a class="btn-floating btn-small red darken-2" title="Decrease item quantity"><i class="material-icons">exposure_neg_1</i></a></td>
+                 <td><a class="btn-floating btn-small red darken-2" title="Increase item quantity"><i class="material-icons">exposure_plus_1</i></a></td>
              </tr>
           `;
       });
@@ -242,6 +260,7 @@ let foodApp = (()=> {
       cartItems.innerHTML = cartContentHolder;
       document.querySelector('.cart_count').innerHTML = getCartItemsCount();
       if(document.querySelectorAll('.responsive-table tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
+      console.log(cart)
     };
 
     const itemAlert = (item, isAdded) => {
@@ -263,15 +282,17 @@ let foodApp = (()=> {
 
     document.querySelector('#cart-items').addEventListener('click', (e)=>{
         let text = e.target.parentElement.innerText;
-
         if(text==='clear'){
           clearAllFromCart();
           updateCartView(cart);
+          document.querySelector('#c_count').textContent = '0';
           document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
         }else if(text==='exposure_neg_1'){
-           removeSingleItemFromCart(""+e.target.parentElement.parentElement.parentElement.children[0].innerText+"");
+           removeSingleItemFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
         }else if(text==='delete'){
-           removeItemAllFromCart(""+e.target.parentElement.parentElement.parentElement.children[0].innerText+"");
+           removeItemAllFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
+        }else if(text === 'exposure_plus_1'){
+          addToCart(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹','').trim());
         }
 
     });
