@@ -5,7 +5,8 @@ import {addToCart, clearAllFromCart, removeSingleItemFromCart,removeItemAllFromC
 import checkout from './checkout';
 
 window.addEventListener('load', ()=>{
-    foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
+    // foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
+    foodApp.fetchFood("https://cors-anywhere.herokuapp.com/http://temp.dash.zeta.in/food.php");    
 });
 
 // block browser back button
