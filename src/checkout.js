@@ -1,3 +1,5 @@
+import {getTotalCost} from './common';
+
 export default (cart) => {
 
     document.querySelector('#food_item_container').style.display = 'none';
@@ -28,7 +30,7 @@ export default (cart) => {
               <th>Item Name</th>
               <th>Item Price</th>
               <th>Quantity</th>
-              <th>Total</th>
+              <th>Item Total</th>
            <!--   <th><a class="btn-floating btn-small red darken-2" title="Clear entire cart"><i class="material-icons">clear</i></a></th>-->
           </tr>
         </thead>
@@ -36,7 +38,7 @@ export default (cart) => {
             ${cartContent}
         </tbody>
      </table>
-     <div><strong>Total:</strong> &#8377; 0</div>
+     <div class="right" style="margin-right: calc(6%);"><strong>Total:</strong> &#8377; ${getTotalCost()}</div>
      `;
 
     if(!document.querySelector('#checkoutDisplay')) {

@@ -8094,7 +8094,7 @@ define(String.prototype, "padRight", "".padEnd);
 "pop,reverse,shift,keys,values,entries,indexOf,every,some,forEach,map,filter,find,findIndex,includes,join,slice,concat,push,splice,unshift,sort,lastIndexOf,reduce,reduceRight,copyWithin,fill".split(",").forEach(function (key) {
   [][key] && define(Array, key, Function.call.bind([][key]));
 });
-},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"../node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"core-js/shim":"../node_modules/core-js/shim.js","regenerator-runtime/runtime":"../node_modules/babel-polyfill/node_modules/regenerator-runtime/runtime.js","core-js/fn/regexp/escape":"../node_modules/core-js/fn/regexp/escape.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -8126,7 +8126,7 @@ function getBaseURL(url) {
 
 exports.getBundleURL = getBundleURLCached;
 exports.getBaseURL = getBaseURL;
-},{}],"../node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+},{}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
 var bundle = require('./bundle-url');
 
 function updateLink(link) {
@@ -8161,12 +8161,12 @@ function reloadCSS() {
 }
 
 module.exports = reloadCSS;
-},{"./bundle-url":"../node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
+},{"./bundle-url":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"style.css":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
 module.hot.accept(reloadCSS);
-},{"_css_loader":"../node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/materialize-css/dist/js/materialize.js":[function(require,module,exports) {
+},{"_css_loader":"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"../node_modules/materialize-css/dist/js/materialize.js":[function(require,module,exports) {
 var define;
 var global = arguments[3];
 /*!
@@ -20544,13 +20544,150 @@ $jscomp.polyfill = function (e, r, p, m) {
   Range.init($('input[type=range]'));
 })(cash, M.anime);
 
-},{}],"checkout.js":[function(require,module,exports) {
+},{}],"common.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.getTotalCost = exports.getCurrentItemCout = exports.getCartItemsCount = exports.removeItemAllFromCart = exports.removeSingleItemFromCart = exports.clearAllFromCart = exports.addToCart = exports.itemAlert = exports.updateCartView = exports.cart = void 0;
+
+var _materializeCss = _interopRequireDefault(require("materialize-css"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var cart = [];
+exports.cart = cart;
+
+var updateCartView = function updateCartView(cart) {
+  var cartItems = document.querySelector('#cart-items');
+  cartItems.innerHTML = '';
+  var cartContent = cart.map(function (ele, i) {
+    return "\n         <tr key=".concat(i, ">\n             <td>").concat(ele.name, "</td>\n             <td>&#8377; ").concat(ele.price, "</td>\n             <td>").concat(ele.quantity, "</td>\n             <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n             <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n             <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n             <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td>\n         </tr>\n      ");
+  });
+  cartContent = cartContent.join('');
+  var cartContentHolder = "\n  <table class=\"highlight responsive-table\">\n      <thead>\n        <tr>\n            <th>Item Name</th>\n            <th>Item Price</th>\n            <th>Quantity</th>\n            <th>Total</th>\n            <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>\n        </tr>\n      </thead>\n      <tbody>\n          ".concat(cartContent, "\n      </tbody>\n   </table>\n   <div><strong>Total:</strong> &#8377; ").concat(getTotalCost(), "</div>\n   <div><button class=\"btn\" id=\"btn_checkout\">Checkout</button></div>\n   ");
+  cartItems.innerHTML = cartContentHolder;
+  document.querySelector('.cart_count').innerHTML = getCartItemsCount();
+  if (document.querySelectorAll('.responsive-table tbody tr').length === 0) document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
+};
+
+exports.updateCartView = updateCartView;
+
+var itemAlert = function itemAlert(item, isAdded) {
+  if (isAdded) _materializeCss.default.toast({
+    html: "".concat(item, " added to cart"),
+    displayLength: '1500'
+  });
+};
+
+exports.itemAlert = itemAlert;
+
+var addToCart = function addToCart(name, price) {
+  for (var i in cart) {
+    if (cart[i].name === name) {
+      cart[i].quantity = cart[i].quantity + 1;
+      updateCartView(cart);
+      getCurrentItemCout(cart[i].name);
+      return;
+    }
+  }
+
+  var cartItem = {
+    name: name,
+    price: price,
+    quantity: 1
+  };
+  cart.push(cartItem);
+  updateCartView(cart);
+  getCurrentItemCout(cartItem.name);
+  itemAlert(name, true);
+};
+
+exports.addToCart = addToCart;
+
+var clearAllFromCart = function clearAllFromCart() {
+  return cart.length = 0;
+};
+
+exports.clearAllFromCart = clearAllFromCart;
+
+var removeSingleItemFromCart = function removeSingleItemFromCart(name) {
+  for (var i in cart) {
+    if (cart[i].name === name) {
+      cart[i].quantity = cart[i].quantity - 1;
+      updateCartView(cart);
+
+      if (cart[i].quantity === 0) {
+        cart.splice(i, 1);
+        document.querySelector('#c_count').textContent = '0';
+        updateCartView(cart);
+        break;
+      }
+    }
+  }
+
+  getCurrentItemCout(name);
+};
+
+exports.removeSingleItemFromCart = removeSingleItemFromCart;
+
+var removeItemAllFromCart = function removeItemAllFromCart(name) {
+  for (var i in cart) {
+    if (cart[i].name === name) {
+      cart.splice(i, 1);
+      updateCartView(cart);
+      break;
+    }
+  }
+
+  document.querySelector('#c_count').textContent = '0';
+};
+
+exports.removeItemAllFromCart = removeItemAllFromCart;
+
+var getCartItemsCount = function getCartItemsCount() {
+  var totalCount = 0;
+  cart.map(function (ele) {
+    totalCount += ele.quantity;
+  });
+  return totalCount;
+};
+
+exports.getCartItemsCount = getCartItemsCount;
+
+var getCurrentItemCout = function getCurrentItemCout(name) {
+  if (cart !== undefined) {
+    for (var i in cart) {
+      if (cart[i].name === name && document.querySelector('#c_count')) {
+        document.querySelector('#c_count').textContent = cart[i].quantity;
+      } else if (cart[i].name !== name && document.querySelector('#c_count')) {
+        document.querySelector('#c_count').textContent = '0';
+      }
+    }
+  }
+};
+
+exports.getCurrentItemCout = getCurrentItemCout;
+
+var getTotalCost = function getTotalCost() {
+  var totalCost = 0;
+  cart.map(function (ele) {
+    totalCost += ele.quantity * ele.price;
+  });
+  return totalCost;
+};
+
+exports.getTotalCost = getTotalCost;
+},{"materialize-css":"../node_modules/materialize-css/dist/js/materialize.js"}],"checkout.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
+
+var _common = require("./common");
 
 var _default = function _default(cart) {
   document.querySelector('#food_item_container').style.display = 'none';
@@ -20561,7 +20698,7 @@ var _default = function _default(cart) {
     return "\n           <tr key=".concat(i, ">\n               <td>").concat(ele.name, "</td>\n               <td>&#8377; ").concat(ele.price, "</td>\n               <td>").concat(ele.quantity, "</td>\n               <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n              <!-- <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td> -->\n           </tr>\n        ");
   });
   cartContent = cartContent.join('');
-  var cartContentHolder = "\n    <table class=\"highlight responsive-table\">\n        <thead>\n          <tr>\n              <th>Item Name</th>\n              <th>Item Price</th>\n              <th>Quantity</th>\n              <th>Total</th>\n           <!--   <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>-->\n          </tr>\n        </thead>\n        <tbody>\n            ".concat(cartContent, "\n        </tbody>\n     </table>\n     <div><strong>Total:</strong> &#8377; 0</div>\n     ");
+  var cartContentHolder = "\n    <table class=\"highlight responsive-table\">\n        <thead>\n          <tr>\n              <th>Item Name</th>\n              <th>Item Price</th>\n              <th>Quantity</th>\n              <th>Item Total</th>\n           <!--   <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>-->\n          </tr>\n        </thead>\n        <tbody>\n            ".concat(cartContent, "\n        </tbody>\n     </table>\n     <div class=\"right\" style=\"margin-right: calc(6%);\"><strong>Total:</strong> &#8377; ").concat((0, _common.getTotalCost)(), "</div>\n     ");
 
   if (!document.querySelector('#checkoutDisplay')) {
     var checkoutDisplay = document.createElement('section');
@@ -20580,14 +20717,14 @@ var _default = function _default(cart) {
 };
 
 exports.default = _default;
-},{}],"index.js":[function(require,module,exports) {
+},{"./common":"common.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
 
 require("./style.css");
 
-var _materializeCss = _interopRequireDefault(require("materialize-css"));
+var _common = require("./common");
 
 var _checkout = _interopRequireDefault(require("./checkout"));
 
@@ -20599,12 +20736,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 window.addEventListener('load', function () {
   foodApp.fetchFood("http://temp.dash.zeta.in/food.php");
-});
+}); // block browser back button
+
+history.pushState(null, null, location.href);
+
+window.onpopstate = function () {
+  history.go(1);
+};
 
 var foodApp = function () {
   "use strict";
 
-  var cart = [];
   var cartItemsIsVisible = false;
 
   var fetchFood =
@@ -20674,7 +20816,7 @@ var foodApp = function () {
       document.querySelector('#food_detail_container').style.display = 'block';
       document.querySelector('#food_item_container').style.display = 'none';
       document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter_u' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter_d' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" >Category: ").concat(category, "</p>\n                  <p>Rating: ").concat(rating, "<i class=\"material-icons rating\">star</i> (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
-      getCurrentItemCout(name);
+      (0, _common.getCurrentItemCout)(name);
     }
   };
 
@@ -20689,7 +20831,7 @@ var foodApp = function () {
     cartBtn(e);
   });
   document.querySelector('#food_detail_container').addEventListener('click', function (e) {
-    if (e.target.className.includes('btn_counter_u')) cartBtn(e);else removeSingleItemFromCart(e.target.dataset.name);
+    if (e.target.className.includes('btn_counter_u')) cartBtn(e);else (0, _common.removeSingleItemFromCart)(e.target.dataset.name);
   });
   document.querySelector('#favourite_holder').addEventListener('click', function (e) {
     cartBtn(e);
@@ -20700,111 +20842,8 @@ var foodApp = function () {
       var _e$target$dataset = e.target.dataset,
           name = _e$target$dataset.name,
           price = _e$target$dataset.price;
-      addToCart(name, price);
+      (0, _common.addToCart)(name, price);
     }
-  };
-
-  var addToCart = function addToCart(name, price) {
-    for (var i in cart) {
-      if (cart[i].name === name) {
-        cart[i].quantity = cart[i].quantity + 1;
-        updateCartView(cart);
-        getCurrentItemCout(cart[i].name);
-        return;
-      }
-    }
-
-    var cartItem = {
-      name: name,
-      price: price,
-      quantity: 1
-    };
-    cart.push(cartItem);
-    updateCartView(cart);
-    getCurrentItemCout(cartItem.name);
-    itemAlert(name, true);
-  };
-
-  var clearAllFromCart = function clearAllFromCart() {
-    return cart.length = 0;
-  };
-
-  var removeSingleItemFromCart = function removeSingleItemFromCart(name) {
-    for (var i in cart) {
-      if (cart[i].name === name) {
-        cart[i].quantity = cart[i].quantity - 1;
-        updateCartView(cart);
-
-        if (cart[i].quantity === 0) {
-          cart.splice(i, 1);
-          document.querySelector('#c_count').textContent = '0';
-          updateCartView(cart);
-          break;
-        }
-      }
-    }
-
-    getCurrentItemCout(name);
-  };
-
-  var removeItemAllFromCart = function removeItemAllFromCart(name) {
-    for (var i in cart) {
-      if (cart[i].name === name) {
-        cart.splice(i, 1);
-        updateCartView(cart);
-        break;
-      }
-    }
-
-    document.querySelector('#c_count').textContent = '0';
-  };
-
-  var getCartItemsCount = function getCartItemsCount() {
-    var totalCount = 0;
-    cart.map(function (ele) {
-      totalCount += ele.quantity;
-    });
-    return totalCount;
-  };
-
-  var getCurrentItemCout = function getCurrentItemCout(name) {
-    if (cart !== undefined) {
-      for (var i in cart) {
-        if (cart[i].name === name && document.querySelector('#c_count')) {
-          document.querySelector('#c_count').textContent = cart[i].quantity;
-        } else if (cart[i].name !== name && document.querySelector('#c_count')) {
-          document.querySelector('#c_count').textContent = '0';
-        }
-      }
-    }
-  };
-
-  var getTotalCost = function getTotalCost() {
-    var totalCost = 0;
-    cart.map(function (ele) {
-      totalCost += ele.quantity * ele.price;
-    });
-    return totalCost;
-  };
-
-  var updateCartView = function updateCartView(cart) {
-    var cartItems = document.querySelector('#cart-items');
-    cartItems.innerHTML = '';
-    var cartContent = cart.map(function (ele, i) {
-      return "\n             <tr key=".concat(i, ">\n                 <td>").concat(ele.name, "</td>\n                 <td>&#8377; ").concat(ele.price, "</td>\n                 <td>").concat(ele.quantity, "</td>\n                 <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n                 <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td>\n             </tr>\n          ");
-    });
-    cartContent = cartContent.join('');
-    var cartContentHolder = "\n      <table class=\"highlight responsive-table\">\n          <thead>\n            <tr>\n                <th>Item Name</th>\n                <th>Item Price</th>\n                <th>Quantity</th>\n                <th>Total</th>\n                <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>\n            </tr>\n          </thead>\n          <tbody>\n              ".concat(cartContent, "\n          </tbody>\n       </table>\n       <div><strong>Total:</strong> &#8377; ").concat(getTotalCost(), "</div>\n       <div><button class=\"btn\" id=\"btn_checkout\">Checkout</button></div>\n       ");
-    cartItems.innerHTML = cartContentHolder;
-    document.querySelector('.cart_count').innerHTML = getCartItemsCount();
-    if (document.querySelectorAll('.responsive-table tbody tr').length === 0) document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
-  };
-
-  var itemAlert = function itemAlert(item, isAdded) {
-    if (isAdded) _materializeCss.default.toast({
-      html: "".concat(item, " added to cart"),
-      displayLength: '1500'
-    });
   };
 
   document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', function () {
@@ -20817,18 +20856,18 @@ var foodApp = function () {
     var text = e.target.parentElement.innerText;
 
     if (text === 'clear') {
-      clearAllFromCart();
-      updateCartView(cart);
+      (0, _common.clearAllFromCart)();
+      (0, _common.updateCartView)(_common.cart);
       if (document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
       document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
     } else if (text === 'exposure_neg_1') {
-      removeSingleItemFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
+      (0, _common.removeSingleItemFromCart)(e.target.parentElement.parentElement.parentElement.children[0].innerText);
     } else if (text === 'delete') {
-      removeItemAllFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
+      (0, _common.removeItemAllFromCart)(e.target.parentElement.parentElement.parentElement.children[0].innerText);
     } else if (text === 'exposure_plus_1') {
-      addToCart(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹', '').trim());
+      (0, _common.addToCart)(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹', '').trim());
     } else if (e.target.id === 'btn_checkout') {
-      (0, _checkout.default)(cart);
+      (0, _checkout.default)(_common.cart);
     }
   }); //reveal functions
 
@@ -20836,7 +20875,7 @@ var foodApp = function () {
     fetchFood: fetchFood
   };
 }();
-},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js","./checkout":"checkout.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","./common":"common.js","./checkout":"checkout.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -20864,7 +20903,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40213" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "30529" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -21039,5 +21078,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
+},{}]},{},["C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js","index.js"], null)
 //# sourceMappingURL=/src.e31bb0bc.js.map

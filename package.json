@@ -1,5 +1,5 @@
 {
-  "name": "zeta-app",
+  "name": "food-cart",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ashwin1014/parcel-starter-template.git"
+    "url": "https://github.com/ashwin1014/food-cart.git"
   },
   "keywords": [],
   "author": "Ashwin Bordoloi",
