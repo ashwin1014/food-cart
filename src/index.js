@@ -21,8 +21,16 @@ let foodApp = (()=> {
     let cartItemsIsVisible = false;
 
     let fetchFood = async (url) => {
-        let response = await fetch(url).catch(err=>console.log(err));
-        let foodData = await response.json();
+      let foodData;
+
+       try {
+         let response = await fetch(url)
+         foodData = await response.json();
+       } catch (err) {
+         throw new Error('Unable to fetch data');         
+       }
+
+      
         
          let recipeGrid = foodData.recipes.map(item=>{
                 return `

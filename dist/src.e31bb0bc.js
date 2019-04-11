@@ -20755,23 +20755,31 @@ var foodApp = function () {
     var _ref = _asyncToGenerator(
     /*#__PURE__*/
     regeneratorRuntime.mark(function _callee(url) {
-      var response, foodData, recipeGrid, favourites, favouriteGrid;
+      var foodData, response, recipeGrid, favourites, favouriteGrid;
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              _context.next = 2;
-              return fetch(url).catch(function (err) {
-                return console.log(err);
-              });
+              _context.prev = 0;
+              _context.next = 3;
+              return fetch(url);
 
-            case 2:
+            case 3:
               response = _context.sent;
-              _context.next = 5;
+              _context.next = 6;
               return response.json();
 
-            case 5:
+            case 6:
               foodData = _context.sent;
+              _context.next = 12;
+              break;
+
+            case 9:
+              _context.prev = 9;
+              _context.t0 = _context["catch"](0);
+              throw new Error('Unable to fetch data');
+
+            case 12:
               recipeGrid = foodData.recipes.map(function (item) {
                 return "\n                <div class=\"col s12 m6\">\n                <div class=\"card hoverable\">\n                  <div class=\"card-image\">\n                    <img src=".concat(item.image, ">\n                  </div>\n                  <div class=\"card-action\">\n                    <div style=\"width: 50%\" class=\"item_detail\"> \n                        <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                        <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                    </div>\n                    <div class=\"item_btn\">\n                        <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                    </div>\n                  </div>\n                </div>\n              </div>");
               });
@@ -20784,12 +20792,12 @@ var foodApp = function () {
               });
               document.getElementById('favourite_holder').innerHTML = favouriteGrid.join('');
 
-            case 11:
+            case 17:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee);
+      }, _callee, null, [[0, 9]]);
     }));
 
     return function fetchFood(_x) {
