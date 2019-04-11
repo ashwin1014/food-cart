@@ -279,7 +279,7 @@ let foodApp = (()=> {
 
       let cartItems = document.querySelector('#cart-items');
 
-      if(cartItems.innerHTML==='') cartItems.innerHTML = '<p class="center">No items in cart</p>';
+      if(cartItems.children.length === 0) cartItems.innerHTML = '<p class="center">No items in cart</p>';
       
       if(cartItemsIsVisible) cartItems.style.display = 'none';
       else cartItems.style.display = 'block';
@@ -293,7 +293,7 @@ let foodApp = (()=> {
         if(text ==='clear'){
           clearAllFromCart();
           updateCartView(cart);
-          document.querySelector('#c_count').textContent = '0';
+          if(document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
           document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
         }else if(text ==='exposure_neg_1'){
            removeSingleItemFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);

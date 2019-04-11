@@ -20809,7 +20809,7 @@ var foodApp = function () {
 
   document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', function () {
     var cartItems = document.querySelector('#cart-items');
-    if (cartItems.innerHTML === '') cartItems.innerHTML = '<p class="center">No items in cart</p>';
+    if (cartItems.children.length === 0) cartItems.innerHTML = '<p class="center">No items in cart</p>';
     if (cartItemsIsVisible) cartItems.style.display = 'none';else cartItems.style.display = 'block';
     cartItemsIsVisible = !cartItemsIsVisible;
   });
@@ -20819,7 +20819,7 @@ var foodApp = function () {
     if (text === 'clear') {
       clearAllFromCart();
       updateCartView(cart);
-      document.querySelector('#c_count').textContent = '0';
+      if (document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
       document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
     } else if (text === 'exposure_neg_1') {
       removeSingleItemFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
@@ -20864,7 +20864,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "38095" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "40213" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
