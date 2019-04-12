@@ -12,6 +12,25 @@
     display: inline;
 }
 
+.d-block {
+    display: block;
+}
+
+.btn-link {
+    background:none!important;
+    color: #06c !important;
+    border:none; 
+    padding:0!important;
+    font: inherit;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.margin-zero {
+    margin:0;
+}
+
+
 h6 {
     font-style: normal;
     font-weight: 700;
@@ -48,13 +67,14 @@ button:focus {
 }
 
 .i_cart{
-    float: right;
+    float: right !important;
     position: relative;
     bottom: 0px;
     height: 52px;
     background: transparent;
     border: none;
     margin-right: 10px;
+    cursor: pointer;
 }
 
 .item_detail {
@@ -145,32 +165,20 @@ nav {
     max-width: 800px;
 }
 
-#cart-items{
-    background-color: var(--white);
-    color: var(--base-black);
-    min-height: 100px;
-    max-height: 400px;
-    width: 470px;
-    float: right;
-    border: 1px solid #DDD;
-    border-radius: 2px;
+#btn_checkout {
     position: relative;
-    top: 43px;
-    left: 30px;
-    overflow: auto;
-    display: none;
-    user-select: none;
+    left: 58%;
 }
 
-#cart-items td,
-#cart-items th{
-    padding: 0 5px;
-    white-space: nowrap;
+#cart-items button.btn-link {
+    position: relative;
+    left: 70%;
+    top: 12px;
 }
 
-#cart-items .btn-small{
-    line-height: 22.4px;
-    font-size: 40px;
+#cart-items li:nth-child(5) p.margin-zero {
+    position: relative;
+    left: 66%;
 }
 
 .rating {
@@ -179,18 +187,49 @@ nav {
     color: #b1b11f;
 }
 
+.sidenav-close {
+    cursor: pointer;
+}
+
 #cart-items .btn-floating.btn-small{
-    width: 20px;
-    height: 20px;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 5px;
 }
 
 #cart-items i.material-icons{
     font-size: 14px;
-    line-height: 21.4px;
+    position: relative;
+    bottom: 3.5px;
+    line-height: 0 !important;
+    text-indent: 0;
 }
 
 #checkoutDisplay{
     display: none;
+}
+
+#checkoutDisplay img.circle{
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+    left: 15px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.sidenav li:nth-child(2) a{
+    height: 32px;
+    width: 32px !important;
+    font-size: 15px;
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0;
+
+}
+.sidenav li:nth-child(2) a i{
+    line-height: 35px;
+    text-indent: 7px;
 }
 
 /*# sourceMappingURL=/src.e31bb0bc.css.map */

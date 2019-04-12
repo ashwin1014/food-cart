@@ -13,8 +13,7 @@
     <nav>
         <div class="nav-wrapper">
           <button class="brand-logo center">Foodvourite</button>
-          <button class="i_cart dropdown-trigger" data-target="dropdown-cart"><i class="material-icons">shopping_cart</i><span class="cart_count">0</span></button>
-          <div id="cart-items" class="container"></div>
+          <button class="i_cart sidenav-trigger" data-target="cart-items"><i class="material-icons">shopping_cart</i><span class="cart_count">0</span></button>
         </div>
     </nav>
  </header>  
@@ -33,12 +32,12 @@
                       <div class="input-field col s12">
                         <i class="material-icons prefix">search</i>
                         <input id="foodSearch" type="text" autocomplete="off">
-                        <label for="foodSearch">Search for a particular dish or ingredient</label>
+                        <label for="foodSearch">Search item (yet to implement)</label>
                         <button type="reset" class="btn-floating waves-light red"><i class="material-icons">clear</i></button>
                       </div>
                     </div>
                   </form>
-                  <!-- <h6>SELECT CATEGORIES</h6> -->
+                  <h6 style="margin-left: 4%;margin-bottom: 20px;">ITEMS</h6>
             </div>
          
               <div id="recipes_card" class="row">
@@ -51,6 +50,27 @@
 <section id="food_detail_container">
     <div class="container"></div>
 </section>
+
+<aside>
+  <ul id="cart-items" class="sidenav">
+      <li><a class="sidenav-close right">X</a></li>
+      <br>
+      <li>        
+        <button class="btn-link" title="Clear entire cart">Clear cart</button>
+      </li>
+      <li>
+          <ul class="collection">
+              <p class="center">No items in cart</p>
+          </ul>
+      </li>
+      <li>
+          <p class="margin-zero"><strong>Total:</strong> &#8377; <span class="t_cost">0</span></p>
+      </li>
+      <li>
+          <button class="btn btn-small disabled sidenav-close" id="btn_checkout">Checkout</button>
+      </li>
+  </ul>
+</aside>
 
 <!-- Scripts -->
 <script src="/src.e31bb0bc.js"></script>

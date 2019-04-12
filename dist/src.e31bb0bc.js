@@ -20544,7 +20544,7 @@ $jscomp.polyfill = function (e, r, p, m) {
   Range.init($('input[type=range]'));
 })(cash, M.anime);
 
-},{}],"common.js":[function(require,module,exports) {
+},{}],"cartActions.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -20560,16 +20560,15 @@ var cart = [];
 exports.cart = cart;
 
 var updateCartView = function updateCartView(cart) {
-  var cartItems = document.querySelector('#cart-items');
+  var cartItems = document.querySelector('#cart-items .collection');
   cartItems.innerHTML = '';
   var cartContent = cart.map(function (ele, i) {
-    return "\n         <tr key=".concat(i, ">\n             <td>").concat(ele.name, "</td>\n             <td>&#8377; ").concat(ele.price, "</td>\n             <td>").concat(ele.quantity, "</td>\n             <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n             <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n             <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n             <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td>\n         </tr>\n      ");
-  });
-  cartContent = cartContent.join('');
-  var cartContentHolder = "\n  <table class=\"highlight responsive-table\">\n      <thead>\n        <tr>\n            <th>Item Name</th>\n            <th>Item Price</th>\n            <th>Quantity</th>\n            <th>Total</th>\n            <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>\n        </tr>\n      </thead>\n      <tbody>\n          ".concat(cartContent, "\n      </tbody>\n   </table>\n   <div><strong>Total:</strong> &#8377; ").concat(getTotalCost(), "</div>\n   <div><button class=\"btn\" id=\"btn_checkout\">Checkout</button></div>\n   ");
-  cartItems.innerHTML = cartContentHolder;
-  document.querySelector('.cart_count').innerHTML = getCartItemsCount();
-  if (document.querySelectorAll('.responsive-table tbody tr').length === 0) document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
+    return "\n         <li class=\"collection-item avatar\" key=".concat(i, ">\n              <img src=\"").concat(ele.image, "\" alt=\"\" class=\"circle\">\n              <span class=\"title\">").concat(ele.name, "</span>\n              <p>Price: &#8377; ").concat(ele.quantity * ele.price, "</p>\n              <p>Quantity: ").concat(ele.quantity, " </p>\n              <div class=\"d-inline\">\n                  <a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\" data-name=\"").concat(ele.name, "\"><i class=\"material-icons\">delete</i></a>\n                  <a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\" data-name=\"").concat(ele.name, "\"><i class=\"material-icons\">exposure_neg_1</i></a>\n                  <a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\" data-price=\"").concat(ele.price, "\" data-name=\"").concat(ele.name, "\"><i class=\"material-icons\">exposure_plus_1</i></a>\n              </div>\n         </li>\n      ");
+  }); // cartContent = cartContent.join('');   
+
+  cartItems.innerHTML = cartContent.join('');
+  document.querySelector('.t_cost').innerHTML = getTotalCost();
+  document.querySelector('.cart_count').innerHTML = getCartItemsCount(); // if(document.querySelectorAll('table.highlight tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';      
 };
 
 exports.updateCartView = updateCartView;
@@ -20583,7 +20582,7 @@ var itemAlert = function itemAlert(item, isAdded) {
 
 exports.itemAlert = itemAlert;
 
-var addToCart = function addToCart(name, price) {
+var addToCart = function addToCart(name, price, image) {
   for (var i in cart) {
     if (cart[i].name === name) {
       cart[i].quantity = cart[i].quantity + 1;
@@ -20596,8 +20595,14 @@ var addToCart = function addToCart(name, price) {
   var cartItem = {
     name: name,
     price: price,
+    image: image,
     quantity: 1
   };
+
+  if (Array.from(document.querySelector('#btn_checkout').classList).includes('disabled')) {
+    document.querySelector('#btn_checkout').classList.remove('disabled');
+  }
+
   cart.push(cartItem);
   updateCartView(cart);
   getCurrentItemCout(cartItem.name);
@@ -20641,7 +20646,7 @@ var removeItemAllFromCart = function removeItemAllFromCart(name) {
     }
   }
 
-  document.querySelector('#c_count').textContent = '0';
+  if (document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
 };
 
 exports.removeItemAllFromCart = removeItemAllFromCart;
@@ -20687,18 +20692,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-var _common = require("./common");
+var _cartActions = require("./cartActions");
 
 var _default = function _default(cart) {
   document.querySelector('#food_item_container').style.display = 'none';
   document.querySelector('#food_detail_container').style.display = 'none';
-  document.querySelector('.dropdown-trigger').style.display = 'none';
-  document.querySelector('#cart-items').style.display = 'none';
+  document.querySelector('.i_cart').style.visibility = 'hidden';
   var cartContent = cart.map(function (ele, i) {
-    return "\n           <tr key=".concat(i, ">\n               <td>").concat(ele.name, "</td>\n               <td>&#8377; ").concat(ele.price, "</td>\n               <td>").concat(ele.quantity, "</td>\n               <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n              <!-- <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td> -->\n           </tr>\n        ");
+    return "\n           <tr key=".concat(i, ">\n               <td><img src=\"").concat(ele.image, "\" class=\"circle\"/></td>\n               <td>").concat(ele.name, "</td>\n               <td>&#8377; ").concat(ele.price, "</td>\n               <td>").concat(ele.quantity, "</td>\n               <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n              <!-- <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td> -->\n           </tr>\n        ");
   });
   cartContent = cartContent.join('');
-  var cartContentHolder = "\n    <table class=\"highlight responsive-table\">\n        <thead>\n          <tr>\n              <th>Item Name</th>\n              <th>Item Price</th>\n              <th>Quantity</th>\n              <th>Item Total</th>\n           <!--   <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>-->\n          </tr>\n        </thead>\n        <tbody>\n            ".concat(cartContent, "\n        </tbody>\n     </table>\n     <div class=\"right\" style=\"margin-right: calc(6%);\"><strong>Total:</strong> &#8377; ").concat((0, _common.getTotalCost)(), "</div>\n     ");
+  var cartContentHolder = "\n    <table class=\"highlight responsive-table\">\n        <thead>\n          <tr>\n              <th></th>\n              <th>Item Name</th>\n              <th>Item Price</th>\n              <th>Quantity</th>\n              <th>Item Total</th>\n           <!--   <th><a class=\"btn-floating btn-small red darken-2\" title=\"Clear entire cart\"><i class=\"material-icons\">clear</i></a></th>-->\n          </tr>\n        </thead>\n        <tbody>\n            ".concat(cartContent, "\n        </tbody>\n     </table>\n     <div class=\"right\" style=\"margin-right: 10%;\"><strong>Total:</strong> &#8377; ").concat((0, _cartActions.getTotalCost)(), "</div>\n     ");
 
   if (!document.querySelector('#checkoutDisplay')) {
     var checkoutDisplay = document.createElement('section');
@@ -20717,14 +20721,16 @@ var _default = function _default(cart) {
 };
 
 exports.default = _default;
-},{"./common":"common.js"}],"index.js":[function(require,module,exports) {
+},{"./cartActions":"cartActions.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 require("babel-polyfill");
 
 require("./style.css");
 
-var _common = require("./common");
+var _cartActions = require("./cartActions");
+
+var _materializeCss = _interopRequireDefault(require("materialize-css"));
 
 var _checkout = _interopRequireDefault(require("./checkout"));
 
@@ -20735,8 +20741,13 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 window.addEventListener('load', function () {
-  // foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
   foodApp.fetchFood("https://cors-anywhere.herokuapp.com/http://temp.dash.zeta.in/food.php");
+  var elems = document.querySelectorAll('.sidenav');
+
+  _materializeCss.default.Sidenav.init(elems, {
+    edge: 'right',
+    draggable: false
+  });
 }); // block browser back button
 
 history.pushState(null, null, location.href);
@@ -20747,8 +20758,6 @@ window.onpopstate = function () {
 
 var foodApp = function () {
   "use strict";
-
-  var cartItemsIsVisible = false;
 
   var fetchFood =
   /*#__PURE__*/
@@ -20782,7 +20791,7 @@ var foodApp = function () {
 
             case 12:
               recipeGrid = foodData.recipes.map(function (item) {
-                return "\n                <div class=\"col s12 m6\">\n                <div class=\"card hoverable\">\n                  <div class=\"card-image\">\n                    <img src=".concat(item.image, ">\n                  </div>\n                  <div class=\"card-action\">\n                    <div style=\"width: 50%\" class=\"item_detail\"> \n                        <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                        <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                    </div>\n                    <div class=\"item_btn\">\n                        <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                    </div>\n                  </div>\n                </div>\n              </div>");
+                return "\n            <div class=\"col s12 m6\">\n            <div class=\"card hoverable\">\n              <div class=\"card-image\">\n                <img src=".concat(item.image, ">\n              </div>\n              <div class=\"card-action\">\n                <div style=\"width: 50%\" class=\"item_detail\"> \n                    <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                    <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                </div>\n                <div class=\"item_btn\">\n                    <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                </div>\n              </div>\n            </div>\n          </div>");
               });
               document.getElementById('recipes_card').innerHTML = recipeGrid.join('');
               favourites = foodData.recipes.filter(function (item) {
@@ -20825,7 +20834,7 @@ var foodApp = function () {
       document.querySelector('#food_detail_container').style.display = 'block';
       document.querySelector('#food_item_container').style.display = 'none';
       document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter_u' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter_d' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" >Category: ").concat(category, "</p>\n                  <p>Rating: ").concat(rating, "<i class=\"material-icons rating\">star</i> (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
-      (0, _common.getCurrentItemCout)(name);
+      (0, _cartActions.getCurrentItemCout)(name);
     }
   };
 
@@ -20833,14 +20842,13 @@ var foodApp = function () {
     if (document.querySelector('#checkoutDisplay')) document.querySelector('#checkoutDisplay').style.display = 'none';
     document.querySelector('#food_detail_container').style.display = 'none';
     document.querySelector('#food_item_container').style.display = 'block';
-    document.querySelector('.dropdown-trigger').style.display = 'block';
-    cartItemsIsVisible = !cartItemsIsVisible;
+    document.querySelector('.i_cart').style.visibility = 'visible';
   });
   document.querySelector('#recipes_card').addEventListener('click', function (e) {
     cartBtn(e);
   });
   document.querySelector('#food_detail_container').addEventListener('click', function (e) {
-    if (e.target.className.includes('btn_counter_u')) cartBtn(e);else (0, _common.removeSingleItemFromCart)(e.target.dataset.name);
+    if (e.target.className.includes('btn_counter_u')) cartBtn(e);else (0, _cartActions.removeSingleItemFromCart)(e.target.dataset.name);
   });
   document.querySelector('#favourite_holder').addEventListener('click', function (e) {
     cartBtn(e);
@@ -20850,33 +20858,27 @@ var foodApp = function () {
     if (e.target.nodeName === 'BUTTON') {
       var _e$target$dataset = e.target.dataset,
           name = _e$target$dataset.name,
-          price = _e$target$dataset.price;
-      (0, _common.addToCart)(name, price);
+          price = _e$target$dataset.price,
+          image = _e$target$dataset.image;
+      (0, _cartActions.addToCart)(name, price, image);
     }
   };
 
-  document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', function () {
-    var cartItems = document.querySelector('#cart-items');
-    if (cartItems.children.length === 0) cartItems.innerHTML = '<p class="center">No items in cart</p>';
-    if (cartItemsIsVisible) cartItems.style.display = 'none';else cartItems.style.display = 'block';
-    cartItemsIsVisible = !cartItemsIsVisible;
-  });
   document.querySelector('#cart-items').addEventListener('click', function (e) {
-    var text = e.target.parentElement.innerText;
-
-    if (text === 'clear') {
-      (0, _common.clearAllFromCart)();
-      (0, _common.updateCartView)(_common.cart);
+    if (e.target.className === 'btn-link') {
+      (0, _cartActions.clearAllFromCart)();
+      (0, _cartActions.updateCartView)(_cartActions.cart);
       if (document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
-      document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
-    } else if (text === 'exposure_neg_1') {
-      (0, _common.removeSingleItemFromCart)(e.target.parentElement.parentElement.parentElement.children[0].innerText);
-    } else if (text === 'delete') {
-      (0, _common.removeItemAllFromCart)(e.target.parentElement.parentElement.parentElement.children[0].innerText);
-    } else if (text === 'exposure_plus_1') {
-      (0, _common.addToCart)(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹', '').trim());
+      document.querySelector('.collection').innerHTML = '<p class="center">No items in cart</p>';
+      document.querySelector('#btn_checkout').classList.add('disabled');
+    } else if (e.target.nodeName === 'I' && e.target.textContent === 'exposure_neg_1') {
+      (0, _cartActions.removeSingleItemFromCart)(e.target.parentElement.dataset.name);
+    } else if (e.target.nodeName === 'I' && e.target.textContent === 'delete') {
+      (0, _cartActions.removeItemAllFromCart)(e.target.parentElement.dataset.name);
+    } else if (e.target.nodeName === 'I' && e.target.textContent === 'exposure_plus_1') {
+      (0, _cartActions.addToCart)(e.target.parentElement.dataset.name, e.target.parentElement.dataset.price, null);
     } else if (e.target.id === 'btn_checkout') {
-      (0, _checkout.default)(_common.cart);
+      (0, _checkout.default)(_cartActions.cart);
     }
   }); //reveal functions
 
@@ -20884,7 +20886,7 @@ var foodApp = function () {
     fetchFood: fetchFood
   };
 }();
-},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","./common":"common.js","./checkout":"checkout.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"babel-polyfill":"../node_modules/babel-polyfill/lib/index.js","./style.css":"style.css","./cartActions":"cartActions.js","materialize-css":"../node_modules/materialize-css/dist/js/materialize.js","./checkout":"checkout.js"}],"C:/Users/Ashwin.Bordoloi/AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -20912,7 +20914,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "30529" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "24360" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

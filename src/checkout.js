@@ -1,15 +1,15 @@
-import {getTotalCost} from './common';
+import {getTotalCost} from './cartActions';
 
 export default (cart) => {
 
     document.querySelector('#food_item_container').style.display = 'none';
     document.querySelector('#food_detail_container').style.display = 'none';
-    document.querySelector('.dropdown-trigger').style.display = 'none';
-    document.querySelector('#cart-items').style.display = 'none';
+    document.querySelector('.i_cart').style.visibility = 'hidden';
     
     let cartContent = cart.map((ele,i)=> {
         return `
            <tr key=${i}>
+               <td><img src="${ele.image}" class="circle"/></td>
                <td>${ele.name}</td>
                <td>&#8377; ${ele.price}</td>
                <td>${ele.quantity}</td>
@@ -27,6 +27,7 @@ export default (cart) => {
     <table class="highlight responsive-table">
         <thead>
           <tr>
+              <th></th>
               <th>Item Name</th>
               <th>Item Price</th>
               <th>Quantity</th>
@@ -38,7 +39,7 @@ export default (cart) => {
             ${cartContent}
         </tbody>
      </table>
-     <div class="right" style="margin-right: calc(6%);"><strong>Total:</strong> &#8377; ${getTotalCost()}</div>
+     <div class="right" style="margin-right: 10%;"><strong>Total:</strong> &#8377; ${getTotalCost()}</div>
      `;
 
     if(!document.querySelector('#checkoutDisplay')) {

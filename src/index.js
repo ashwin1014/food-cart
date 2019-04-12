@@ -1,12 +1,16 @@
 import "babel-polyfill";
 import './style.css';
-import {addToCart, clearAllFromCart, removeSingleItemFromCart,removeItemAllFromCart, getCurrentItemCout, cart, updateCartView} from './common';
-// import M from 'materialize-css';
+import {addToCart, clearAllFromCart, removeSingleItemFromCart,removeItemAllFromCart, getCurrentItemCout, cart, updateCartView} from './cartActions';
+import M from 'materialize-css';
 import checkout from './checkout';
 
 window.addEventListener('load', ()=>{
-    // foodApp.fetchFood("http://temp.dash.zeta.in/food.php");    
     foodApp.fetchFood("https://cors-anywhere.herokuapp.com/http://temp.dash.zeta.in/food.php");    
+    var elems = document.querySelectorAll('.sidenav');
+    M.Sidenav.init(elems,{
+      edge: 'right',
+      draggable: false
+    });
 });
 
 // block browser back button
@@ -19,11 +23,8 @@ history.pushState(null, null, location.href);
 let foodApp = (()=> {    
   "use strict";
     
-    let cartItemsIsVisible = false;
-
     let fetchFood = async (url) => {
       let foodData;
-
        try {
          let response = await fetch(url)
          foodData = await response.json();
@@ -31,27 +32,25 @@ let foodApp = (()=> {
          throw new Error('Unable to fetch data');         
        }
 
-      
-        
-         let recipeGrid = foodData.recipes.map(item=>{
-                return `
-                <div class="col s12 m6">
-                <div class="card hoverable">
-                  <div class="card-image">
-                    <img src=${item.image}>
-                  </div>
-                  <div class="card-action">
-                    <div style="width: 50%" class="item_detail"> 
-                        <p class="" title=${item.name}>${item.name}</p>
-                        <p class="">&#8377; ${item.price}</p>                       
-                    </div>
-                    <div class="item_btn">
-                        <button class="btn btn_add_cart" data-name="${item.name}" data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>ADD TO BAG</button>
-                    </div>
-                  </div>
+      let recipeGrid = foodData.recipes.map(item=>{
+            return `
+            <div class="col s12 m6">
+            <div class="card hoverable">
+              <div class="card-image">
+                <img src=${item.image}>
+              </div>
+              <div class="card-action">
+                <div style="width: 50%" class="item_detail"> 
+                    <p class="" title=${item.name}>${item.name}</p>
+                    <p class="">&#8377; ${item.price}</p>                       
                 </div>
-              </div>`;
-         });
+                <div class="item_btn">
+                    <button class="btn btn_add_cart" data-name="${item.name}" data-image=${item.image} data-price=${item.price} data-category=${item.category} data-rating=${item.rating} data-detail="${item.details}" data-review=${item.reviews}>ADD TO BAG</button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+      });
 
          document.getElementById('recipes_card').innerHTML = recipeGrid.join('');
 
@@ -94,7 +93,7 @@ let foodApp = (()=> {
         
         if(e.target.nodeName === 'IMG') {              
               
-              let {name, category, detail, price, rating, review} = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset
+             let {name, category, detail, price, rating, review} = e.target.parentElement.nextElementSibling.lastElementChild.firstElementChild.dataset
  
              document.querySelector('#food_detail_container').style.display = 'block';
              document.querySelector('#food_item_container').style.display = 'none';
@@ -134,8 +133,7 @@ let foodApp = (()=> {
       
       document.querySelector('#food_detail_container').style.display = 'none';
       document.querySelector('#food_item_container').style.display = 'block';
-      document.querySelector('.dropdown-trigger').style.display = 'block';
-      cartItemsIsVisible = !cartItemsIsVisible;
+      document.querySelector('.i_cart').style.visibility = 'visible';
     })
 
     
@@ -156,38 +154,26 @@ let foodApp = (()=> {
 
    const cartBtn = (e) => {
       if(e.target.nodeName === 'BUTTON'){
-        let {name, price} = e.target.dataset;      
-        addToCart(name, price);
+        let {name, price, image} = e.target.dataset;      
+        addToCart(name, price, image);
       }
    };
 
-    
-    document.querySelector('nav > div > button:nth-child(2)').addEventListener('click', ()=> {  
-
-      let cartItems = document.querySelector('#cart-items');
-
-      if(cartItems.children.length === 0) cartItems.innerHTML = '<p class="center">No items in cart</p>';
-      
-      if(cartItemsIsVisible) cartItems.style.display = 'none';
-      else cartItems.style.display = 'block';
-      
-      cartItemsIsVisible = !cartItemsIsVisible;
-
-    });
-
+ 
     document.querySelector('#cart-items').addEventListener('click', (e)=>{
-        let text = e.target.parentElement.innerText;
-        if(text ==='clear'){
+
+        if(e.target.className === 'btn-link'){
           clearAllFromCart();
           updateCartView(cart);
           if(document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
-          document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';
-        }else if(text ==='exposure_neg_1'){
-           removeSingleItemFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
-        }else if(text === 'delete'){
-           removeItemAllFromCart(e.target.parentElement.parentElement.parentElement.children[0].innerText);
-        }else if(text === 'exposure_plus_1'){
-          addToCart(e.target.parentElement.parentElement.parentElement.children[0].innerText, e.target.parentElement.parentElement.parentElement.children[1].innerText.replace('₹','').trim());
+          document.querySelector('.collection').innerHTML = '<p class="center">No items in cart</p>';
+          document.querySelector('#btn_checkout').classList.add('disabled');
+        }else if(e.target.nodeName === 'I' && e.target.textContent === 'exposure_neg_1'){
+           removeSingleItemFromCart(e.target.parentElement.dataset.name);
+        }else if(e.target.nodeName === 'I' && e.target.textContent === 'delete'){
+           removeItemAllFromCart(e.target.parentElement.dataset.name);
+        }else if(e.target.nodeName === 'I' && e.target.textContent === 'exposure_plus_1'){
+          addToCart(e.target.parentElement.dataset.name, e.target.parentElement.dataset.price, null);
         }else if(e.target.id === 'btn_checkout') {
           checkout(cart);
         }

@@ -3,55 +3,38 @@ import M from 'materialize-css';
 export let cart = [];
 
 export  const updateCartView = (cart) => {
-  let cartItems = document.querySelector('#cart-items');
+  let cartItems = document.querySelector('#cart-items .collection');
   cartItems.innerHTML = '';     
 
   let cartContent = cart.map((ele,i)=> {
       return `
-         <tr key=${i}>
-             <td>${ele.name}</td>
-             <td>&#8377; ${ele.price}</td>
-             <td>${ele.quantity}</td>
-             <td>&#8377; ${ele.quantity*ele.price}</td>
-             <td><a class="btn-floating btn-small red darken-2" title="Remove current all items"><i class="material-icons">delete</i></a></td>
-             <td><a class="btn-floating btn-small red darken-2" title="Decrease item quantity"><i class="material-icons">exposure_neg_1</i></a></td>
-             <td><a class="btn-floating btn-small red darken-2" title="Increase item quantity"><i class="material-icons">exposure_plus_1</i></a></td>
-         </tr>
+         <li class="collection-item avatar" key=${i}>
+              <img src="${ele.image}" alt="" class="circle">
+              <span class="title">${ele.name}</span>
+              <p>Price: &#8377; ${ele.quantity*ele.price}</p>
+              <p>Quantity: ${ele.quantity} </p>
+              <div class="d-inline">
+                  <a class="btn-floating btn-small red darken-2" title="Remove current all items" data-name="${ele.name}"><i class="material-icons">delete</i></a>
+                  <a class="btn-floating btn-small red darken-2" title="Decrease item quantity" data-name="${ele.name}"><i class="material-icons">exposure_neg_1</i></a>
+                  <a class="btn-floating btn-small red darken-2" title="Increase item quantity" data-price="${ele.price}" data-name="${ele.name}"><i class="material-icons">exposure_plus_1</i></a>
+              </div>
+         </li>
       `;
   });
 
-  cartContent = cartContent.join('');
- 
-  let cartContentHolder = `
-  <table class="highlight responsive-table">
-      <thead>
-        <tr>
-            <th>Item Name</th>
-            <th>Item Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th><a class="btn-floating btn-small red darken-2" title="Clear entire cart"><i class="material-icons">clear</i></a></th>
-        </tr>
-      </thead>
-      <tbody>
-          ${cartContent}
-      </tbody>
-   </table>
-   <div><strong>Total:</strong> &#8377; ${getTotalCost()}</div>
-   <div><button class="btn" id="btn_checkout">Checkout</button></div>
-   `;
-   
+  // cartContent = cartContent.join('');   
 
-  cartItems.innerHTML = cartContentHolder;
+  cartItems.innerHTML =  cartContent.join('');
+  document.querySelector('.t_cost').innerHTML = getTotalCost();
   document.querySelector('.cart_count').innerHTML = getCartItemsCount();
-  if(document.querySelectorAll('.responsive-table tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';      
+  // if(document.querySelectorAll('table.highlight tbody tr').length === 0)  document.querySelector('#cart-items').innerHTML = '<p class="center">No items in cart</p>';      
 };
 
 export const itemAlert = (item, isAdded) => {
   if(isAdded) M.toast({html: `${item} added to cart`, displayLength: '1500'});      
 };
 
-export const addToCart = (name, price) => {
+export const addToCart = (name, price, image) => {
     for(let i in cart) {
       if(cart[i].name === name) {
          cart[i].quantity = cart[i].quantity+1;
@@ -64,9 +47,13 @@ export const addToCart = (name, price) => {
      let cartItem = {
         name,
         price,
+        image,
         quantity: 1
      };
-
+    
+     if(Array.from(document.querySelector('#btn_checkout').classList).includes('disabled')){
+      document.querySelector('#btn_checkout').classList.remove('disabled');
+     }
      cart.push(cartItem);
      updateCartView(cart);
      getCurrentItemCout(cartItem.name);
@@ -99,7 +86,7 @@ export const addToCart = (name, price) => {
          break;
        }
      }
-     document.querySelector('#c_count').textContent = '0';
+    if(document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
    };
 
    export  const getCartItemsCount = () =>{
