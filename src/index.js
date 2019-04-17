@@ -125,6 +125,7 @@ let foodApp = (()=> {
              </div>
            </div>`;              
            getCurrentItemCout(name);
+           document.querySelector('.back-btn').style.visibility = 'visible';
           }
     };
 
@@ -133,7 +134,8 @@ let foodApp = (()=> {
       
       document.querySelector('#food_detail_container').style.display = 'none';
       document.querySelector('#food_item_container').style.display = 'block';
-      document.querySelector('.i_cart').style.visibility = 'visible';
+      document.querySelector('.i_cart').style.visibility = 'visible';   
+      document.querySelector('.back-btn').style.visibility = 'hidden';   
     })
 
     
@@ -198,6 +200,17 @@ let foodApp = (()=> {
         item.style.display = 'block';
       })
     });
+
+    if(document.querySelector('.back-btn')) {
+      document.querySelector('.back-btn').addEventListener('click', ()=> {
+        if(document.querySelector('#checkoutDisplay')) document.querySelector('#checkoutDisplay').style.display = 'none';
+      
+        document.querySelector('#food_detail_container').style.display = 'none';
+        document.querySelector('#food_item_container').style.display = 'block';
+        document.querySelector('.i_cart').style.visibility = 'visible';   
+        document.querySelector('.back-btn').style.visibility = 'hidden';   
+      });
+    }
 
 
     //reveal functions

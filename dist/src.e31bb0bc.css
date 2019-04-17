@@ -26,6 +26,13 @@
     cursor: pointer;
 }
 
+.back-btn{
+    padding-left: 15px;
+    margin-top: 2px;
+    cursor: pointer;
+    visibility: hidden;
+}
+
 .margin-zero {
     margin:0;
 }
@@ -118,6 +125,13 @@ nav {
     margin: auto;
     margin-bottom: 30px;
 }
+
+@media only screen and (max-width: 600px) {
+    #recipes_card .card{
+        min-height: 450px;
+    }
+  }
+
 
 #recipes_card .card-image img {
     max-width: 400px;

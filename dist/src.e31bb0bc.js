@@ -20704,6 +20704,7 @@ var _default = function _default(cart) {
   document.querySelector('#food_item_container').style.display = 'none';
   document.querySelector('#food_detail_container').style.display = 'none';
   document.querySelector('.i_cart').style.visibility = 'hidden';
+  document.querySelector('.back-btn').style.visibility = 'visible';
   var cartContent = cart.map(function (ele, i) {
     return "\n           <tr key=".concat(i, ">\n               <td><img src=\"").concat(ele.image, "\" class=\"circle\"/></td>\n               <td>").concat(ele.name, "</td>\n               <td>&#8377; ").concat(ele.price, "</td>\n               <td>").concat(ele.quantity, "</td>\n               <td>&#8377; ").concat(ele.quantity * ele.price, "</td>\n              <!-- <td><a class=\"btn-floating btn-small red darken-2\" title=\"Remove current all items\"><i class=\"material-icons\">delete</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Decrease item quantity\"><i class=\"material-icons\">exposure_neg_1</i></a></td>\n               <td><a class=\"btn-floating btn-small red darken-2\" title=\"Increase item quantity\"><i class=\"material-icons\">exposure_plus_1</i></a></td> -->\n           </tr>\n        ");
   });
@@ -20841,6 +20842,7 @@ var foodApp = function () {
       document.querySelector('#food_item_container').style.display = 'none';
       document.querySelector('#food_detail_container .container').innerHTML = "\n             \n             <div class=\"col m6 card_content\">\n             <div class=\"card\">\n               <div class=\"card-image\">\n                 <img src=".concat(e.target.src, ">\n               </div>\n               <div class=\"card-action\">\n                 <div style=\"width: 50%; margin-bottom: 50px\" class=\"item_detail\"> \n                     <p class=\"truncate\">").concat(name, "</p>\n                     <p class=\"\">&#8377; ").concat(price, "</p>\n                 </div>\n                 <div class=\"item_btn\">\n                     <button class='btn btn_counter_u' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">+</button>\n                      <p id=\"c_count\" class=\"d-inline\">0</p>\n                     <button class='btn btn_counter_d' data-name=\"").concat(name, "\" data-image=").concat(e.target.src, " data-price=").concat(price, " data-category=").concat(category, " data-rating=").concat(rating, " data-detail=\"").concat(detail, "\" data-review=").concat(review, ">-</button>\n                 </div>\n                 <div style=\"margin-top: 50px\">\n                  <p style=\"width: 50%\" >Category: ").concat(category, "</p>\n                  <p>Rating: ").concat(rating, "<i class=\"material-icons rating\">star</i> (").concat(review, " Reviews)</p>\n                 </div>\n                 <h6>DETAILS</h6> \n                 <p>").concat(detail, "</p>\n               </div>\n             </div>\n           </div>");
       (0, _cartActions.getCurrentItemCout)(name);
+      document.querySelector('.back-btn').style.visibility = 'visible';
     }
   };
 
@@ -20849,6 +20851,7 @@ var foodApp = function () {
     document.querySelector('#food_detail_container').style.display = 'none';
     document.querySelector('#food_item_container').style.display = 'block';
     document.querySelector('.i_cart').style.visibility = 'visible';
+    document.querySelector('.back-btn').style.visibility = 'hidden';
   });
   document.querySelector('#recipes_card').addEventListener('click', function (e) {
     cartBtn(e);
@@ -20903,7 +20906,18 @@ var foodApp = function () {
     document.querySelectorAll('.item').forEach(function (item) {
       item.style.display = 'block';
     });
-  }); //reveal functions
+  });
+
+  if (document.querySelector('.back-btn')) {
+    document.querySelector('.back-btn').addEventListener('click', function () {
+      if (document.querySelector('#checkoutDisplay')) document.querySelector('#checkoutDisplay').style.display = 'none';
+      document.querySelector('#food_detail_container').style.display = 'none';
+      document.querySelector('#food_item_container').style.display = 'block';
+      document.querySelector('.i_cart').style.visibility = 'visible';
+      document.querySelector('.back-btn').style.visibility = 'hidden';
+    });
+  } //reveal functions
+
 
   return {
     fetchFood: fetchFood
@@ -20937,7 +20951,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "5704" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "9905" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

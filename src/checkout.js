@@ -5,6 +5,7 @@ export default (cart) => {
     document.querySelector('#food_item_container').style.display = 'none';
     document.querySelector('#food_detail_container').style.display = 'none';
     document.querySelector('.i_cart').style.visibility = 'hidden';
+    document.querySelector('.back-btn').style.visibility = 'visible'; 
     
     let cartContent = cart.map((ele,i)=> {
         return `
