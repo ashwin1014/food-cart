@@ -89,11 +89,15 @@ export const addToCart = (name, price, image) => {
     if(document.querySelector('#c_count')) document.querySelector('#c_count').textContent = '0';
    };
 
-   export  const getCartItemsCount = () =>{
+   export  const getCartItemsCount = () => {
      let totalCount = 0;
      cart.map((ele)=>{
        totalCount += ele.quantity;
-     });  
+     }); 
+     if(totalCount === 0) {
+       document.querySelector('#btn_checkout').classList.add('disabled'); 
+       document.querySelector('.collection').innerHTML = '<p class="center">No items in cart</p>';
+     }
      return totalCount;
    };
 

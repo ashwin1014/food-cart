@@ -20656,6 +20656,12 @@ var getCartItemsCount = function getCartItemsCount() {
   cart.map(function (ele) {
     totalCount += ele.quantity;
   });
+
+  if (totalCount === 0) {
+    document.querySelector('#btn_checkout').classList.add('disabled');
+    document.querySelector('.collection').innerHTML = '<p class="center">No items in cart</p>';
+  }
+
   return totalCount;
 };
 
@@ -20791,7 +20797,7 @@ var foodApp = function () {
 
             case 12:
               recipeGrid = foodData.recipes.map(function (item) {
-                return "\n            <div class=\"col s12 m6\">\n            <div class=\"card hoverable\">\n              <div class=\"card-image\">\n                <img src=".concat(item.image, ">\n              </div>\n              <div class=\"card-action\">\n                <div style=\"width: 50%\" class=\"item_detail\"> \n                    <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                    <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                </div>\n                <div class=\"item_btn\">\n                    <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                </div>\n              </div>\n            </div>\n          </div>");
+                return "\n            <div class=\"col s12 m6 item\" data-name=\"".concat(item.name, "\" data-category=\"").concat(item.category, "\">\n            <div class=\"card hoverable\">\n              <div class=\"card-image\">\n                <img src=").concat(item.image, ">\n              </div>\n              <div class=\"card-action\">\n                <div style=\"width: 50%\" class=\"item_detail\"> \n                    <p class=\"\" title=").concat(item.name, ">").concat(item.name, "</p>\n                    <p class=\"\">&#8377; ").concat(item.price, "</p>                       \n                </div>\n                <div class=\"item_btn\">\n                    <button class=\"btn btn_add_cart\" data-name=\"").concat(item.name, "\" data-image=").concat(item.image, " data-price=").concat(item.price, " data-category=").concat(item.category, " data-rating=").concat(item.rating, " data-detail=\"").concat(item.details, "\" data-review=").concat(item.reviews, ">ADD TO BAG</button>\n                </div>\n              </div>\n            </div>\n          </div>");
               });
               document.getElementById('recipes_card').innerHTML = recipeGrid.join('');
               favourites = foodData.recipes.filter(function (item) {
@@ -20880,6 +20886,23 @@ var foodApp = function () {
     } else if (e.target.id === 'btn_checkout') {
       (0, _checkout.default)(_cartActions.cart);
     }
+  });
+  var timeout = null;
+  document.querySelector('#foodSearch').addEventListener('keydown', function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(function () {
+      var searchedItem = document.getElementById('foodSearch').value.toUpperCase();
+      document.querySelectorAll('.item').forEach(function (item) {
+        if (item.getAttribute('data-name').toUpperCase().indexOf(searchedItem) === -1) {
+          item.style.display = 'none';
+        } else item.style.display = 'block';
+      });
+    }, 400);
+  });
+  document.querySelector('button[type=reset]').addEventListener('click', function () {
+    document.querySelectorAll('.item').forEach(function (item) {
+      item.style.display = 'block';
+    });
   }); //reveal functions
 
   return {
@@ -20914,7 +20937,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "24360" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "5704" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

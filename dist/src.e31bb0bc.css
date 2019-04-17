@@ -168,6 +168,7 @@ nav {
 #btn_checkout {
     position: relative;
     left: 58%;
+    margin-bottom: 20px;
 }
 
 #cart-items button.btn-link {
@@ -178,13 +179,18 @@ nav {
 
 #cart-items li:nth-child(5) p.margin-zero {
     position: relative;
-    left: 66%;
+    left: 58%;
 }
 
 .rating {
     position: relative;
     top: 6px;
     color: #b1b11f;
+}
+
+.sidenav {
+    height: calc(100vh);
+    overflow-x: hidden;
 }
 
 .sidenav-close {

@@ -34,7 +34,7 @@ let foodApp = (()=> {
 
       let recipeGrid = foodData.recipes.map(item=>{
             return `
-            <div class="col s12 m6">
+            <div class="col s12 m6 item" data-name="${item.name}" data-category="${item.category}">
             <div class="card hoverable">
               <div class="card-image">
                 <img src=${item.image}>
@@ -128,7 +128,7 @@ let foodApp = (()=> {
           }
     };
 
-    document.querySelector('.brand-logo').addEventListener('click',()=>{
+    document.querySelector('.brand-logo').addEventListener('click',()=> {
       if(document.querySelector('#checkoutDisplay')) document.querySelector('#checkoutDisplay').style.display = 'none';
       
       document.querySelector('#food_detail_container').style.display = 'none';
@@ -180,6 +180,26 @@ let foodApp = (()=> {
 
     });
          
+    let timeout = null;
+    document.querySelector('#foodSearch').addEventListener('keydown', ()=> {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        let searchedItem = document.getElementById('foodSearch').value.toUpperCase();
+          document.querySelectorAll('.item').forEach((item)=>{
+            if(item.getAttribute('data-name').toUpperCase().indexOf(searchedItem) === -1){
+              item.style.display = 'none'
+            } else item.style.display = 'block'
+        })
+      }, 400);
+    });
+
+    document.querySelector('button[type=reset]').addEventListener('click', ()=> {
+      document.querySelectorAll('.item').forEach((item)=>{
+        item.style.display = 'block';
+      })
+    });
+
+
     //reveal functions
     return {
       fetchFood: fetchFood,     
